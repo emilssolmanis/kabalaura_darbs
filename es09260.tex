@@ -1,0 +1,101 @@
+\documentclass{ludis}
+
+% xelatex
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+% languages
+\usepackage{fixlatvian}
+\usepackage{polyglossia}
+\setdefaultlanguage{latvian}
+\setotherlanguages{english,russian}
+
+% graphics
+% \usepackage{pgfplots}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.png,.eps}
+
+% fonts
+\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\setsansfont[Mapping=tex-text]{DejaVu Sans}
+\newfontfamily\russianfont{DejaVu Serif}
+
+% toc
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% formatting
+% \usepackage{url}
+% \usepackage{footnote}
+\usepackage{longtable}
+
+% bibtex
+\usepackage[pdfauthor={Emīls Šolmanis},%
+pdftitle={GPS datu segmentācija},%
+pdfkeywords={machine learning, data mining, GPS data analysis, clusterization},%
+hidelinks=true,%
+pagebackref=false,%
+xetex]{hyperref}
+\hypersetup{colorlinks=false}
+\urlstyle{same}
+\usepackage{cite}
+
+%% \usepackage{amsmath}
+%% \usepackage{amssymb}
+%% \usepackage{enumerate}
+
+\fakultate{Datorikas}
+\nosaukums{GPS datu segmentācija}
+\darbaveids{Bakalaura}
+\autors{Emīls Šolmanis}
+\studapl{es09260}
+\vaditajs{Asoc. prof., Dr. dat. Jānis Zuters}
+\vieta{Rīga}
+\gads{2013}
+
+\begin{document}
+\maketitle
+
+\begin{abstract-lv}
+  Darba mērķis ir izstrādāt neuzraudzītās mašīnmācīšanās algoritmu, kas spētu sadalīt ierakstītu
+  GPS datu ceļu atsevišķos fragmentos ar līdzīgām iezīmēm.
+fragmentos
+  \keywords{mašīnmācīšanās, datizrace, GPS datu analīze, klasterizācija}
+\end{abstract-lv}
+
+\begin{abstract-en}
+  The goal of this thesis is to develop an unsupervised machine-learning algorithm, that could
+  split a recorded path of GPS coordinates into segments based on similar characteristics.
+  \keywords{machine learning, data mining, GPS data analysis, clusterization}
+\end{abstract-en}
+
+\tableofcontents
+
+\specnodala{Apzīmējumu saraksts}
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\begin{longtable}{| c | p{28em} |}
+  \hline
+  \textbf{Apzīmējums} & \textbf{Atšifrējums}\\ 
+  \endhead
+  \hline
+  JVM & Java Virtuālā Mašīna\\
+  BLAS & Basic Linear Algebra Subprograms, funkciju kopa, kas nodrošina pamata lineārās algebras 
+  funkcionalitāti\\
+  LAPACK & Linear Algebra PACKage, BLAS funkciju kopas paplašinājums, balstoties uz to\\
+  Paralelizācija & Savstarpēji neatkarīgu programmas daļu vienlaicīga izpilde uz dažādiem procesora
+  kodoliem vai procesoriem\\
+  \hline
+\end{longtable}
+
+\specnodala{Ievads}
+
+
+\chapter{Uzdevuma izpēte}
+\section{Problēmas būtība}
+
+
+\literatura{es09260}
+
+\end{document}
