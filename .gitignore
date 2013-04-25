@@ -30,4 +30,7 @@
 *.brf
 *.jar
 *.class
+.classpath
+.project
 target/
+.settings/
