@@ -28,3 +28,6 @@
 *.mtc0
 *.pdf
 *.brf
+*.jar
+*.class
+target/
