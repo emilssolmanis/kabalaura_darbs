@@ -1,0 +1,12 @@
+DEFINE load_gps_csv(path) RETURNS gps_data {
+    data = LOAD '$path' 
+        USING com.esmupliks.pig.load.LoadMyTracksCSV() 
+        AS (segment:long, point:long, latitude:double, longitude:double, altitude:double, 
+            bearing:double, accuracy:double, speed:double, time:chararray, filepath:chararray);
+    -- it's all or nothing, either all fields are NULL or none are, so it's enough to only check one
+    data = FILTER data BY segment IS NOT NULL;
+    $gps_data = FOREACH data
+        GENERATE
+            segment, point, latitude, longitude, altitude, 
+            bearing, accuracy, speed, ToDate(time) AS time, filepath;
+}
