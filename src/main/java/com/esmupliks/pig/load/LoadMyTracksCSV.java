@@ -38,7 +38,7 @@ public class LoadMyTracksCSV extends LoadFunc {
             }
             Text lineText = (Text) reader.getCurrentValue();
             String line = lineText.toString();
-            String[] parts = line.split(",");
+            String[] parts = line.split("\",\"");
 
             Tuple t = tupleFactory.newTuple();
 // valid records are of the form
@@ -48,7 +48,7 @@ public class LoadMyTracksCSV extends LoadFunc {
             if (parts.length == 12 || parts.length == 13) {
                 // strip quotes
                 for (int i = 0; i < parts.length; i++) {
-                    parts[i] = parts[i].substring(1, parts[i].length() - 1);
+                    parts[i] = parts[i].replace("\"", "").replace(",", ".");
                 }
                 try {
                     Long seg = Long.parseLong(parts[0]);
