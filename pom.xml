@@ -18,6 +18,17 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.javadocmd</groupId>
+      <artifactId>simplelatlng</artifactId>
+      <version>RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>org.apache.pig</groupId>
       <artifactId>pig</artifactId>
       <version>0.11.1</version>
@@ -42,7 +53,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <profiles>
     <profile>
       <id>jdk6</id>
@@ -87,23 +97,23 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <!-- <plugin> -->
-      <!--   <artifactId>maven-assembly-plugin</artifactId> -->
-      <!--   <configuration> -->
-      <!--     <descriptorRefs> -->
-      <!--       <descriptorRef>jar-with-dependencies</descriptorRef> -->
-      <!--     </descriptorRefs> -->
-      <!--   </configuration> -->
-      <!--   <executions> -->
-      <!--     <execution> -->
-      <!--       <id>make-assembly</id> -->
-      <!--       <phase>package</phase> -->
-      <!--       <goals> -->
-      <!--         <goal>single</goal> -->
-      <!--       </goals> -->
-      <!--     </execution> -->
-      <!--   </executions> -->
-      <!-- </plugin> -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

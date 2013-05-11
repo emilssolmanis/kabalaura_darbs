@@ -1,7 +1,6 @@
 SET default_parallel 10;
 
-REGISTER ${localRepository}/com/linkedin/datafu/datafu/${datafu.version}/datafu-${datafu.version}.jar;
-REGISTER ${localRepository}/com/esmupliks/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar;
+REGISTER ${localRepository}/com/esmupliks/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}-jar-with-dependencies.jar;
 
 DEFINE Haversine datafu.pig.geo.HaversineDistInMiles();
 
