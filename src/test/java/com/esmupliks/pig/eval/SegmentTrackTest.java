@@ -277,11 +277,12 @@ public class SegmentTrackTest {
         List<Integer> bps = segmentTrack.getBreakPoints(modes);
         List<Certainty> certainties = Arrays.asList(certaintiesArr);
         
-        List<TransportationMode> newModes = segmentTrack.mergeUncertainSegments(modes, certainties, bps, 1);
-        TransportationMode[] actuals = new TransportationMode[newModes.size()];
+        int numMerged = segmentTrack.mergeUncertainSegments(modes, certainties, bps, 2);
+        Assert.assertEquals(3, numMerged);
+        TransportationMode[] actuals = new TransportationMode[modes.size()];
         Assert.assertEquals(modesArr.length, actuals.length);
         for (int i = 0; i < actuals.length; i++) {
-            actuals[i] = newModes.get(i);
+            actuals[i] = modes.get(i);
         }
 
         TransportationMode[] expecteds = {

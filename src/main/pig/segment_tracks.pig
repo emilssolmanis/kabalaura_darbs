@@ -19,7 +19,8 @@ gps_points_segmentation = FOREACH gps_points_segmentation {
     sorted = ORDER points BY num_order ASC;
     GENERATE 
         filepath, 
-        Segment(sorted, 5.0, 3.0, 30.0, 100.0, 200.0, 2);
+        -- speedThr, accelThr, segmTimeThr, segmDistThr, segmCertaintyDist, uncertainMergeThr
+        Segment(sorted, 5.0, 3.0, 40.0, 150.0, 250.0, 3);
 }
 
 STORE gps_points_segmentation INTO '$OUT_DIR' USING PigStorage('|');

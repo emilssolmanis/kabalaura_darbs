@@ -18,6 +18,7 @@ import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
+import com.esmupliks.pig.eval.SegmentTrack.Certainty;
 import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
@@ -39,9 +40,9 @@ public class SegmentTrack extends EvalFunc<DataBag> {
         }
     }
 
-    public static enum Certainty {
-        CERTAIN,
-        UNCERTAIN;
+    public static enum Certainty implements UniqueID {
+        CERTAIN { public long getId() { return 0; } },
+        UNCERTAIN { public long getId() { return 1; } };
     }
 
     public static final class GPSPoint {
@@ -246,17 +247,16 @@ public class SegmentTrack extends EvalFunc<DataBag> {
         return certainties;
     }
 
-    public List<TransportationMode> mergeUncertainSegments(List<TransportationMode> modes,
-                                                            List<Certainty> certainties,
-                                                            List<Integer> breakPoints,
-                                                            int uncertainMergeThreshold) {
-        List<TransportationMode> newModes = new ArrayList<TransportationMode>();
-        newModes.addAll(modes);
-        
+    public int mergeUncertainSegments(List<TransportationMode> modes,
+                                      List<Certainty> certainties,
+                                      List<Integer> breakPoints,
+                                      int uncertainMergeThreshold) {
+        int numMerges = 0;
         int startSegment = 0;
         Certainty prev = certainties.get(0);
+        Certainty curr = null;
         for (int i = 1; i < certainties.size(); i++) {
-            Certainty curr = certainties.get(i);
+            curr = certainties.get(i);
             /* upon certainty change point check if previous span was
              * 1) a span of uncertain segments
              * 2) longer than the threshold
@@ -264,12 +264,14 @@ public class SegmentTrack extends EvalFunc<DataBag> {
              * if it was, merge them all into a non-walk segment
              */
             if (curr != prev) {
-                if (prev == Certainty.UNCERTAIN && (i - startSegment) > uncertainMergeThreshold) {
+                if (prev == Certainty.UNCERTAIN && (i - startSegment) >= uncertainMergeThreshold) {
+                    numMerges++;
+
                     int startPoint = breakPoints.get(startSegment);
                     int endPoint = breakPoints.get(i);
 
                     for (int j = startPoint; j < endPoint; j++) {
-                        newModes.set(j, TransportationMode.NONWALK);
+                        modes.set(j, TransportationMode.NONWALK);
                     }
                 }
 
@@ -278,7 +280,16 @@ public class SegmentTrack extends EvalFunc<DataBag> {
             prev = curr;
         }
 
-        return newModes;
+        // check if the tail is not an uncertain segment above threshold
+        if (curr == Certainty.UNCERTAIN && (certainties.size() - startSegment) >= uncertainMergeThreshold) {
+            int startPoint = breakPoints.get(startSegment);
+            for (int j = startPoint; j < modes.size(); j++) {
+                modes.set(j, TransportationMode.NONWALK);
+            }
+            numMerges++;
+        }
+
+        return numMerges;
     }
 
     /** Splits a GPS log into segments based on movement modes.
@@ -342,8 +353,16 @@ public class SegmentTrack extends EvalFunc<DataBag> {
                                                                   segmentCertaintyDistanceThreshold);
         
         int uncertainSegmentMergeNonWalkThreshold = (Integer) input.get(6);
-        modes = mergeUncertainSegments(modes, certainties, breakPoints, uncertainSegmentMergeNonWalkThreshold);
-        breakPoints = getBreakPoints(modes);
+
+        // keep merging until all segments are certain
+        // CUSTOM: multiple merge passes
+        int numMerged = 1;
+        while (numMerged > 0) {
+            numMerged = mergeUncertainSegments(modes, certainties, breakPoints, uncertainSegmentMergeNonWalkThreshold);
+            breakPoints = getBreakPoints(modes);
+            certainties = calculateSegmentCertainties(points, breakPoints, 
+                                                      segmentCertaintyDistanceThreshold);
+        }
 
         DataBag segments = bagFactory.newDefaultBag();
         int start = breakPoints.get(0);
@@ -363,6 +382,7 @@ public class SegmentTrack extends EvalFunc<DataBag> {
             }
             Tuple segmentInfo = tupleFactory.newTuple();
             segmentInfo.append(modes.get(start).getId());
+            segmentInfo.append(certainties.get(i - 1).getId());
             segmentInfo.append(segmentPoints);
             segments.add(segmentInfo);
 
@@ -387,6 +407,7 @@ public class SegmentTrack extends EvalFunc<DataBag> {
             
             singleSegmentBagSchema.add(new FieldSchema("gps_point", gpsPoingTupleSchema, DataType.TUPLE));
             segmentTupleSchema.add(new FieldSchema("transport_mode", DataType.LONG));
+            segmentTupleSchema.add(new FieldSchema("certainty", DataType.LONG));
             segmentTupleSchema.add(new FieldSchema("points", singleSegmentBagSchema, DataType.BAG));
 
             outputBagSchema.add(new FieldSchema("segment", segmentTupleSchema, DataType.TUPLE));
