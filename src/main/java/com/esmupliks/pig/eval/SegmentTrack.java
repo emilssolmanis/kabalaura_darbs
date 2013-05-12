@@ -343,6 +343,7 @@ public class SegmentTrack extends EvalFunc<DataBag> {
         double segmentTimeThreshold = (Double) input.get(3);
         double segmentDistanceThreshold = (Double) input.get(4);
 
+        // TODO: single-point segments aren't merged
         modes = mergeInsignificantSegments(points, modes, breakPoints, segmentDistanceThreshold, 
                                            segmentTimeThreshold);
         breakPoints = getBreakPoints(modes);
