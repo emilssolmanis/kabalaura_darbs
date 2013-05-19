@@ -65,6 +65,29 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         return out;
     }
 
+    private double[] singleDaniell(int len) {
+        double[] filter = new double[len];
+
+        for (int j = 0; j < filter.length; j++) {
+            filter[j] = 1.0 / (len - 1);
+        }
+
+        filter[0] = 1.0 / (2 * (len - 1));
+        filter[filter.length - 1] = 1.0 / (2 * (len - 1));
+        return filter;
+    }
+
+    /** Assumes that the lens array is not empty
+     */
+    public double[] modifiedDaniell(int[] lens) {
+        double[] filter = singleDaniell(lens[0]);
+        for (int i = 1; i < lens.length; i++) {
+            double[] curr = singleDaniell(lens[i]);
+            filter = convolute(filter, curr);
+        }
+        return filter;
+    }
+
     /** Input parameters are expected to be (in this order):
      * <ul>
      * <li>a sorted bag of tuples to take the PSD of, assumed to have less than 2^31 elements</li>
