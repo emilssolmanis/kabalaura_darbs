@@ -1,10 +1,13 @@
 package com.esmupliks.pig.eval;
 
+import java.util.Arrays;
+
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
+import org.apache.commons.math3.util.FastMath;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.BagFactory;
@@ -72,7 +75,11 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         return out;
     }
 
-    private double[] singleDaniell(int len) {
+    private double[] singleDaniell(int len) throws ExecException {
+        if (len % 2 == 0 || len <= 1) {
+            throw new ExecException("Daniell filter spans have to be odd numbers above 1!");
+        }
+
         double[] filter = new double[len];
 
         for (int j = 0; j < filter.length; j++) {
@@ -89,13 +96,26 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
     public double[] modifiedDaniell(int[] lens) throws ExecException {
         double[] filter = singleDaniell(lens[0]);
         for (int i = 1; i < lens.length; i++) {
-            if (lens[i] % 2 == 0) {
-                throw new ExecException("Daniell filter spans have to be odd numbers!");
-            }
             double[] curr = singleDaniell(lens[i]);
             filter = convolute(filter, curr);
         }
         return filter;
+    }
+
+    /** Gets the closest power of 2 going upwards.
+     */
+    public int closestPowerOf2(int x) {
+        return (int) Math.round(Math.ceil(FastMath.log(2.0, x)));
+    }
+
+    /** Zero-pads the given array so it has a power of 2 size.
+     */
+    public double[] zeroPadToPow2(double[] arr) {
+        int powOf2 = closestPowerOf2(arr.length);
+        int newSize = 1;
+        // integer exponentiation doesn't exist for Java, just bitshift
+        newSize <<= powOf2;
+        return Arrays.copyOf(arr, newSize);
     }
 
     /** Input parameters are expected to be (in this order):
@@ -108,6 +128,13 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
      */
     @Override
     public DataBag exec(Tuple input) throws ExecException {
+        // demean
+        // apply Cosine bell taper
+        // take FFT
+        // get magnitudes
+        // raise to square & multiply by n
+        // apply modified Daniell filters to smoothen the curve
+
         DataBag inputData = (DataBag) input.get(0);
         int origInputSize = (int) inputData.size();
         int field = (Integer) input.get(1);
@@ -120,19 +147,21 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         double[] data = new double[origInputSize];
         int i = 0;
         for (Tuple t : inputData) {
-            data[i] = (Double) t.get(i);
+            data[i] = (Double) t.get(field);
             ++i;
         }
-        
+
         demean(data);
         taper(data, taperParam);
 
+        data = zeroPadToPow2(data);
+        int dataSize = data.length;
         FastFourierTransformer fft = new FastFourierTransformer(DftNormalization.STANDARD);
         Complex[] res = fft.transform(data, TransformType.FORWARD);
         int half = data.length % 2 == 0 ? data.length / 2 : data.length / 2 + 1;
         data = new double[half];
         for (i = 0; i < half; i++) {
-            data[i] = Math.pow((half / 2) * (res[i].abs() / half), 2);
+            data[i] = (half / 2) * Math.pow(res[i].abs() / half, 2);
         }
 
         // TODO: use an FFT, the convolution method gets a bit noisy and adds spare data
@@ -144,19 +173,13 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         DataBag result = bagFactory.newDefaultBag();
         for (i = spare; i < data.length - spare; i++) {
             Tuple t = tupleFactory.newTuple();
-            t.append(i);
-            double frequency = (i - spare) / (double) origInputSize;
+            t.append(i - spare);
+            double frequency = (i - spare) / (double) dataSize;
             t.append(frequency);
             t.append(data[i]);
             result.add(t);
         }
 
-        // demean
-        // apply Cosine bell taper
-        // take FFT
-        // get magnitudes
-        // raise to square & multiply by n
-        // apply modified Daniell filters to smoothen the curve
         return result;
     }
 
