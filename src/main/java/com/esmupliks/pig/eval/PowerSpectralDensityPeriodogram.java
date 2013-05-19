@@ -7,11 +7,18 @@ import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.BagFactory;
 import org.apache.pig.data.DataBag;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.FrontendException;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
 public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
+    private BagFactory bagFactory = BagFactory.getInstance();
+    private TupleFactory tupleFactory = TupleFactory.getInstance();
     
     public void demean(double[] data) {
         double m = StatUtils.mean(data);
@@ -79,9 +86,12 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
 
     /** Assumes that the lens array is not empty
      */
-    public double[] modifiedDaniell(int[] lens) {
+    public double[] modifiedDaniell(int[] lens) throws ExecException {
         double[] filter = singleDaniell(lens[0]);
         for (int i = 1; i < lens.length; i++) {
+            if (lens[i] % 2 == 0) {
+                throw new ExecException("Daniell filter spans have to be odd numbers!");
+            }
             double[] curr = singleDaniell(lens[i]);
             filter = convolute(filter, curr);
         }
@@ -99,6 +109,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
     @Override
     public DataBag exec(Tuple input) throws ExecException {
         DataBag inputData = (DataBag) input.get(0);
+        int origInputSize = (int) inputData.size();
         int field = (Integer) input.get(1);
         double taperParam = (Double) input.get(2);
         int[] daniell = new int[input.size() - 3];
@@ -106,7 +117,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
             daniell[i - 3] = (Integer) input.get(i);
         }
 
-        double[] data = new double[(int) inputData.size()];
+        double[] data = new double[origInputSize];
         int i = 0;
         for (Tuple t : inputData) {
             data[i] = (Double) t.get(i);
@@ -123,18 +134,45 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         for (i = 0; i < half; i++) {
             data[i] = Math.pow((half / 2) * (res[i].abs() / half), 2);
         }
-        
+
+        // TODO: use an FFT, the convolution method gets a bit noisy and adds spare data
+        // points which we now have to remove
+        double[] filter = modifiedDaniell(daniell);
+        data = convolute(data, filter);
+        int spare = (filter.length - 1) / 2;
+
+        DataBag result = bagFactory.newDefaultBag();
+        for (i = spare; i < data.length - spare; i++) {
+            Tuple t = tupleFactory.newTuple();
+            t.append(i);
+            double frequency = (i - spare) / (double) origInputSize;
+            t.append(frequency);
+            t.append(data[i]);
+            result.add(t);
+        }
+
         // demean
         // apply Cosine bell taper
         // take FFT
         // get magnitudes
         // raise to square & multiply by n
         // apply modified Daniell filters to smoothen the curve
-        return null;
+        return result;
     }
 
     @Override
     public Schema outputSchema(Schema inputSchema) {
-        return null;
+        try {
+            Schema bagSchema = new Schema();
+            Schema tupleSchema = new Schema();
+            tupleSchema.add(new FieldSchema("idx", DataType.INTEGER));
+            tupleSchema.add(new FieldSchema("frequency", DataType.DOUBLE));
+            tupleSchema.add(new FieldSchema("power", DataType.DOUBLE));
+            bagSchema.add(new FieldSchema("sample", tupleSchema, DataType.TUPLE));
+            return new Schema(new FieldSchema("psd", bagSchema, DataType.BAG));            
+        } catch (FrontendException e) {
+            return null;
+        }
     }
 }
+

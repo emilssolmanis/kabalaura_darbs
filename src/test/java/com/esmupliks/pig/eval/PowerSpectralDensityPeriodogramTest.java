@@ -1,7 +1,6 @@
 package com.esmupliks.pig.eval;
 
-import java.util.Arrays;
-
+import org.apache.pig.backend.executionengine.ExecException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class PowerSpectralDensityPeriodogramTest {
     }
 
     @Test
-    public void testDaniell() {
+    public void testDaniell() throws ExecException {
         int[] lens0 = {3};
         double[] ex0 = {0.25, 0.5, 0.25};
         double[] d0 = psd.modifiedDaniell(lens0);

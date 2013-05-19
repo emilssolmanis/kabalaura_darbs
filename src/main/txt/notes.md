@@ -22,10 +22,17 @@ The following R code to yields almost equivalent results
       inputVec * weights;
     }
 
+    ds <- d$acceleration[d$segmentId == 3]; 
+    s <- spectrum(ds, log="no", fast=FALSE, taper=0.1, spans=c(5, 9));
+    k5 <- kernel("modified.daniell", c(1));
+    filt5 <- c(k5$coef, k5$coef[1], rev(k5$coef));
+    k9 <- kernel("modified.daniell", c(2));
+    filt9 <- c(k9$coef, k9$coef[1], rev(k9$coef));
+    dFilt <- convolve(filt5, filt9, type="open");
+    filtered <- convolve((length(ds) / 4) * (Mod(fft(taper(ds - mean(ds), 0.1))[1:(length(ds)/2 + 1)]) / (length(ds) / 2))^2, dFilt, type="open");
+    plot(c(1:(length(filtered))) / (length(filtered)), filtered, type="l");
 
-    ds <- d$acceleration[d$segmentId == 16]; 
-    s <- spectrum(ds, log="dB", fast=FALSE, taper=0.1); 
-    plot(c(1:(length(ds)/2 + 1)) / (length(ds)), 10 * log10((length(ds) / 4) * (Mod(fft(taper(ds - mean(ds), 0.1))[1:(length(ds)/2 + 1)]) / (length(ds) / 2))^2), type="l")
+
 
 $kernel
 mDaniell(1,2) 
