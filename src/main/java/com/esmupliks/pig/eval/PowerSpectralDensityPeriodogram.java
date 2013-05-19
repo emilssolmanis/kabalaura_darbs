@@ -18,6 +18,29 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         }
     }
 
+    /** Copies the behavior of spec.taper in R.
+     */
+    public void taper(double[] data, double taper) {
+        int numFromEnds = (int) Math.round(Math.floor(taper * data.length));
+        double[] w = new double[numFromEnds];
+        // init to 1, 3, 5 ...
+        for (int i = 0; i < numFromEnds; i++) {
+            w[i] = 2 * (i + 1) - 1;
+        }
+        for (int i = 0; i < w.length; i++) {
+            w[i] = 0.5 * (1 - Math.cos(Math.PI * w[i] / (2 * numFromEnds)));
+        }
+        // taper front
+        for (int i = 0; i < w.length; i++) {
+            data[i] *= w[i];
+        }
+        // taper back
+        for (int i = 0; i < w.length; i++) {
+            int dIdx = data.length - 1 - i;
+            data[dIdx] *= w[i];
+        }
+    }
+
     /** Input parameters are expected to be (in this order):
      * <ul>
      * <li>a sorted bag of tuples to take the PSD of, assumed to have less than 2^31 elements</li>
@@ -42,6 +65,8 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
             data[i] = (Double) t.get(i);
             ++i;
         }
+        
+        demean(data);
         
         // demean
         // apply Cosine bell taper
