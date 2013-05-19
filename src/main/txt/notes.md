@@ -25,7 +25,7 @@ The following R code to yields almost equivalent results
 
     ds <- d$acceleration[d$segmentId == 16]; 
     s <- spectrum(ds, log="dB", fast=FALSE, taper=0.1); 
-    plot(c(1:(length(ds)/2 + 1)) / (length(ds)), 10 * log10((length(ds) / 4) * (Mod(fft(spec.taper(ds - mean(ds), 0.1))[1:(length(ds)/2 + 1)]) / (length(ds) / 2))^2), type="l")
+    plot(c(1:(length(ds)/2 + 1)) / (length(ds)), 10 * log10((length(ds) / 4) * (Mod(fft(taper(ds - mean(ds), 0.1))[1:(length(ds)/2 + 1)]) / (length(ds) / 2))^2), type="l")
 
 $kernel
 mDaniell(1,2) 
