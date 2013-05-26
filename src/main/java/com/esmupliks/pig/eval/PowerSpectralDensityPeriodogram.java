@@ -57,7 +57,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
      * @param x An array of values to compute the convolution for
      * @param f A 1D filter to apply
      */
-    public double[] convolute(double[] x, double[] f) {
+    public double[] convolve(double[] x, double[] f) {
         // TODO: this is absolutely terrible, but seems to work. Rewrite decently
         double[] out = new double[x.length + f.length - 1];
 
@@ -97,7 +97,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         double[] filter = singleDaniell(lens[0]);
         for (int i = 1; i < lens.length; i++) {
             double[] curr = singleDaniell(lens[i]);
-            filter = convolute(filter, curr);
+            filter = convolve(filter, curr);
         }
         return filter;
     }
@@ -110,8 +110,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
 
     /** Zero-pads the given array so it has a power of 2 size.
      */
-    public double[] zeroPadToPow2(double[] arr) {
-        int powOf2 = closestPowerOf2(arr.length);
+    public double[] zeroPadToPow2(double[] arr, int powOf2) {
         int newSize = 1;
         // integer exponentiation doesn't exist for Java, just bitshift
         newSize <<= powOf2;
@@ -139,9 +138,10 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         int origInputSize = (int) inputData.size();
         int field = (Integer) input.get(1);
         double taperParam = (Double) input.get(2);
-        int[] daniell = new int[input.size() - 3];
-        for (int i = 3; i < input.size(); i++) {
-            daniell[i - 3] = (Integer) input.get(i);
+        int powOf2 = (Integer) input.get(3);
+        int[] daniell = new int[input.size() - 4];
+        for (int i = 4; i < input.size(); i++) {
+            daniell[i - 4] = (Integer) input.get(i);
         }
 
         double[] data = new double[origInputSize];
@@ -154,7 +154,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         demean(data);
         taper(data, taperParam);
 
-        data = zeroPadToPow2(data);
+        data = zeroPadToPow2(data, powOf2);
         int dataSize = data.length;
         FastFourierTransformer fft = new FastFourierTransformer(DftNormalization.STANDARD);
         Complex[] res = fft.transform(data, TransformType.FORWARD);
@@ -167,7 +167,7 @@ public class PowerSpectralDensityPeriodogram extends EvalFunc<DataBag> {
         // TODO: use an FFT, the convolution method gets a bit noisy and adds spare data
         // points which we now have to remove
         double[] filter = modifiedDaniell(daniell);
-        data = convolute(data, filter);
+        data = convolve(data, filter);
         int spare = (filter.length - 1) / 2;
 
         DataBag result = bagFactory.newDefaultBag();

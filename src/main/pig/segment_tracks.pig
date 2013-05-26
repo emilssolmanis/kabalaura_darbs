@@ -5,6 +5,8 @@ REGISTER ${localRepository}/com/esmupliks/${project.artifactId}/${project.versio
 DEFINE Segment com.esmupliks.pig.eval.SegmentTrack();
 DEFINE Haversine datafu.pig.geo.HaversineDistInMiles();
 DEFINE Enumerate datafu.pig.bags.Enumerate();
+DEFINE VAR datafu.pig.stats.VAR();
+DEFINE Quantiles datafu.pig.stats.Quantile('0.0', '0.5', '1.0');
 
 IMPORT 'gps_helpers.macro';
 
@@ -22,8 +24,20 @@ gps_points_segmentation = FOREACH gps_points_segmentation {
     GENERATE 
         filepath, 
         -- speedThr, accelThr, segmTimeThr, segmDistThr, segmCertaintyDist, uncertainMergeThr
-        FLATTEN(Enumerate(Segment(sorted, 5.0, 3.0, 30.0, 100.0, 200.0, 3))) AS (transport_mode, certainty, points, segment_id);
+        -- double,   double,   double,      double,      double,            int
+        FLATTEN(Enumerate(Segment(sorted, $SPEED_THR, $ACCEL_THR, $SEG_TIME_THR, $SEG_DIST_THR, $SEG_CERT_DIST, $UNCERT_MERGE_THR))) AS (transport_mode, certainty, points, segment_id);
 }
+
+num_segments = FOREACH gps_points_segmentation GENERATE filepath, segment_id;
+num_segments = DISTINCT num_segments;
+num_segments = GROUP num_segments BY filepath;
+num_segments = FOREACH num_segments GENERATE COUNT(num_segments) AS num;
+num_segments = GROUP num_segments ALL;
+num_segments = FOREACH num_segments {
+    sorted = ORDER num_segments BY num;
+    GENERATE AVG(sorted), SQRT(VAR(sorted)), Quantiles(sorted);
+}
+STORE num_segments INTO '$OUT_DIR/evaluation';
 
 -- DESCRIBE gps_points_segmentation;
 STORE gps_points_segmentation INTO '$OUT_DIR/segments' USING PigStorage('|');

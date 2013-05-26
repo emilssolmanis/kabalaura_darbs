@@ -20,7 +20,7 @@ accels = FOREACH accels
         accels.(point_id, acceleration) AS data_points;
 psds = FOREACH accels {
     sorted = ORDER data_points BY point_id ASC;
-    GENERATE filepath, segment_id, FLATTEN(PSD(sorted, 1, 0.1, 5, 9)) AS (idx, frequency, power);
+    GENERATE filepath, segment_id, COUNT(sorted) AS num_points, PSD(sorted, 1, 0.1, 12, 5, 9);
 }
 
 STORE psds INTO '$OUT_DIR' USING PigStorage('|');

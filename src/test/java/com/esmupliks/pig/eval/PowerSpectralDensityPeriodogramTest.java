@@ -48,12 +48,12 @@ public class PowerSpectralDensityPeriodogramTest {
     public void zeroPad() {
         double[] arr0 = {1.0, 2.0, 3.0, 4.0};
         double[] ex0 = {1.0, 2.0, 3.0, 4.0};
-        double[] act = psd.zeroPadToPow2(arr0);
+        double[] act = psd.zeroPadToPow2(arr0, 2);
         Assert.assertArrayEquals(ex0, act, 0.0001);
 
         double[] arr1 = {1.0, 2.0, 3.0, 4.0, 5.0};
         double[] ex1 = {1.0, 2.0, 3.0, 4.0, 5.0, 0.0, 0.0, 0.0};
-        act = psd.zeroPadToPow2(arr1);
+        act = psd.zeroPadToPow2(arr1, 3);
         Assert.assertArrayEquals(ex1, act, 0.0001);
     }
 
@@ -77,17 +77,17 @@ public class PowerSpectralDensityPeriodogramTest {
     }
 
     @Test
-    public void testConvolute() {
+    public void testConvolve() {
         double[] x = {0.125, 0.25, 0.25, 0.25, 0.125};
         double[] f = {0.25, 0.5, 0.25};
         double[] ex = {0.03125, 0.125, 0.21875, 0.25, 0.21875, 0.125, 0.03125};
-        double[] act = psd.convolute(x, f);
+        double[] act = psd.convolve(x, f);
         Assert.assertArrayEquals(ex, act, 0.001);
 
         double[] x2 = {0.08333, 0.16667, 0.16667, 0.16667, 0.16667, 0.16667, 0.08333};
         double[] f2 = {0.0625, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.0625};
         double[] ex2 = {0.005208, 0.020833, 0.041667, 0.0625, 0.083333, 0.104167, 0.119792, 0.125, 0.119792, 0.104167, 0.083333, 0.0625, 0.041667, 0.020833, 0.005208};
-        act = psd.convolute(x2, f2);
+        act = psd.convolve(x2, f2);
         Assert.assertArrayEquals(ex2, act, 0.001);
     }
 
