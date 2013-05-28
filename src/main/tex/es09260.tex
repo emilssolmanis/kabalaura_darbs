@@ -6,10 +6,10 @@
 \usepackage{xltxtra}
 
 % languages
-\usepackage{fixlatvian}
 \usepackage{polyglossia}
 \setdefaultlanguage{latvian}
 \setotherlanguages{english,russian}
+\usepackage{fixlatvian}
 
 % graphics
 % \usepackage{pgfplots}
@@ -58,16 +58,16 @@ xetex]{hyperref}
 \maketitle
 
 \begin{abstract-lv}
-  Darba mērķis ir izstrādāt neuzraudzītās mašīnmācīšanās algoritmu, kas spētu sadalīt ierakstītu
-  GPS datu ceļu atsevišķos fragmentos ar līdzīgām iezīmēm.
-fragmentos
-  \keywords{mašīnmācīšanās, datizrace, GPS datu analīze, klasterizācija}
+  Darba mērķis ir izstrādāt neuzraudzītās mašīnmācīšanās algoritmu un atrast pazīmes, kas spētu
+  sadalīt ierakstītu GPS datu ceļu atsevišķos fragmentos pēc pārvietošanās metodes.
+  \keywords{mašīnmācīšanās, telpiskā datizrace, GPS datu analīze, \linebreak klasterizācija}
 \end{abstract-lv}
 
 \begin{abstract-en}
-  The goal of this thesis is to develop an unsupervised machine-learning algorithm, that could
-  split a recorded path of GPS coordinates into segments based on similar characteristics.
-  \keywords{machine learning, data mining, GPS data analysis, clusterization}
+  The goal of this thesis is to develop an unsupervised machine-learning algo\-rithm and find the 
+  necessary features to split a recorded path of GPS coordi\-nates into segments based on
+  transportation modes.
+  \keywords{machine learning, spatial data mining, GPS data analysis, \linebreak clusterization}
 \end{abstract-en}
 
 \tableofcontents
@@ -80,6 +80,7 @@ fragmentos
   \textbf{Apzīmējums} & \textbf{Atšifrējums}\\ 
   \endhead
   \hline
+  GPS & Globālā pozicionēšanas sistēma\\
   JVM & Java Virtuālā Mašīna\\
   BLAS & Basic Linear Algebra Subprograms, funkciju kopa, kas nodrošina pamata lineārās algebras 
   funkcionalitāti\\
@@ -90,11 +91,76 @@ fragmentos
 \end{longtable}
 
 \specnodala{Ievads}
+Darbā gaitā ir izstrādāta metode ierakstītu augstas frekvences GPS ceļu sadalīšanai un 
+klasterizācijai pa izmantotajiem transporta veidiem. 
 
+Ir ierakstīti un ievākti iespējami dažādi GPS dati darbā apskatāmās prob\-lēmas vajadzībām. Dati
+ievākti pārsvarā Rīgā, laika periodā no 2012. gada februāra līdz 2013. gada maijam, izmantojot Samsung
+Galaxy Note (GT-N7000) viedtālruni un MyTracks programmatūru. ~\cite{mytracks} Datu kopā sastopamie
+transporta veidi ir, lielākoties, pārvietošanās ar kājām, trolejbuss, autobuss, divritenis un 
+automašīna.
+
+Darbu uzsākot ir izvirzīta hipotēze, ka ir iespējams šos ierakstītos GPS ceļus:
+\begin{itemize}
+\item sadalīt segmentos pa lietotajām transporta metodēm;
+\item veiksmīgi klasterizēt un sagrupēt līdzīgās transporta metodes no dažā\-diem ierakstītajiem ceļiem.
+\end{itemize}
+
+% TODO: darba struktūras apraksts
+
+pDarba rezultāti rāda ka ierakstīto ceļu segmentācija un klasterizācija ir iespējama un veiksmīga,
+taču nepieciešama tālāka izpēte, lai uzlabotu rezultātu precizitāti.
 
 \chapter{Uzdevuma izpēte}
-\section{Problēmas būtība}
+\section{Problēmas būtība, motivācija}
+Mūsdienās ļoti daudzām ierīcēm ir pieejams GPS sensors. Tas ir praktiski jebkurā mūsdienīgā mobilajā
+tālrunī un daudzās citās ierīcēs. Piemēram, ASV Federālā Komunikāciju Komisija ir noteikusi, ka līdz
+2018. gadam glāb\-šanas dienestu vajadzībām visām bezvadu ierīcēm ir jāspēj būt atrodamām 
+ar 50 pēdu precizitāti ~\cite{fcc_e911}, kas praktiski ir grūti panākams ar torņu trian\-gulācijas 
+metodēm un vēl vairāk sekmēs GPS sensoru ieviešanu bezvadu ierīcēs.
 
+Līdz ar GPS ierīču popularitātes un skaita pieaugumu, ir pieaudzis arī šo ierīču ģenerēto datu
+plūsmas lielums. Ļoti daudzi lietotāji izmanto GPS sensorus, lai ierakstītu savas sporta aktivitātes,
+piemēram, lietotnei Endo\-mondo vien ir $\sim$ 5 000 000 - 10 000 000 ~\cite{g_play_endomondo} 
+lejupielādes Android platformā. \emph{Apple} nepublicē pat aptuvenu statistiku par \emph{iOS}
+lejupielādēm.
+
+Ir pieejamas arī lietotnes, kas mēģina sekot un kategorizēt lietotāju \linebreak ikdienas 
+aktivitātes, kā piemēram \emph{iOS} pieejamā lietotne \emph{Moves} ~\cite{moves_app}, taču tā 
+izmanto telefona akselerometru, žiroskopu un GPS sensoru, kas:
+\begin{itemize}
+\item negatīvi iespaido baterijas darbības ilgumu;
+\item padara lietotnes izmantošanu neiespējamu uz ierīcēm, kas aprīkotas tikai ar GPS sensoru.
+\end{itemize}
+
+Līdz šim nav izstrādāts algoritms un tā implementācija, kas ļautu seg\-mentēt GPS ierakstu daļās un 
+šīs daļas veiksmīgi grupēt bez lietotāja atgrie\-zeniskās saites.
+
+Šāda algoritma pieejamība ļautu 
+\begin{itemize}
+\item uzlabot ceļu plānošanas sistēmas, jo tās zinātu pa kādiem ceļiem lieto\-tāji izvēlas
+  pārvietoties ar kādiem transporta līdzekļiem;
+\item ja būtu pieejami pietiekoši dati, optimizēt pilsētas infrastruktūras \linebreak plānošanu;
+\item ievērojami atvieglot datu ieguves procesu. Būtu iespēja izmantot ano\-nīmi ziedotus GPS 
+  ierakstus, tā vietā, lai prasītu lietotājus iezīmēt ceļā katru pārvietošanās veidu.
+\end{itemize}
+
+\section{Pastāvošie risinājumi}
+Veiksmīgākā esošā metode šīs problēmas risināšanai ir Yu Zheng izstrā\-dāts uzraudzītās mašīnmācīšanās
+algoritms, kas balstīts uz lēmumu kokiem. ~\cite{zheng_gps_segmentation} Lai arī šim algoritmam
+ir salīdzinoši augsta precizitāte, tas ir slikti mērog\-ojams, jo izmanto uzraudzīto mašīnmācīšanos,
+kas nozīmē, ka kādam -- \linebreak parasti datu autoriem -- ir jāiezīmē dati, un šādi iezīmēti
+dati jāievāc pietie\-koši daudz, lai pietiktu algoritma apmācībai, kā arī tas ir limitēts autoru 
+noteikto transportācijas veidu ietvaros. Rakstā tiek minēta klasifikācija starp staigāšanu, 
+braukšanu ar mašīnu, braukšanu ar sabiedrisko transportu un braukšanu ar velosipēdu. 
+
+Šīs pieejas problēmas un ierobežojumi ir:
+\begin{itemize}
+\item labākajā gadījumā, katru reizi pievienojot jaunu pārvietošanās veidu ir jāievāc iezīmēta datu 
+  kopa;
+\item sliktākajā -- jauns pārvietošanās veids vispār netiek pamanīts un \linebreak 
+  konsekventi tiek nepareizi klasificēts kā viens no zināmajiem.
+\end{itemize}
 
 \literatura{es09260}
 
