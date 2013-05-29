@@ -33,7 +33,7 @@
 % bibtex
 \usepackage[pdfauthor={Emīls Šolmanis},%
 pdftitle={GPS datu segmentācija},%
-pdfkeywords={machine learning, data mining, GPS data analysis, clusterization},%
+pdfkeywords={machine learning, spatial data mining, GPS data analysis, clusterization},%
 hidelinks=true,%
 pagebackref=false,%
 xetex]{hyperref}
@@ -210,8 +210,71 @@ seko arī attālums, ātrums, paātrinājums un virziena maiņa.
   \label{fig:all_trails}
 \end{figure}
 
+% par(family="AvantGarde")
+% k <- kernel("modified.daniell", c(3, 5));
+% plot(kernapply(andrejsala$speed[walk], k), type="l", ylim=c(0, 25), xlim=c(0, 900), col="green", lty="dashed", main="Pārvietošanās ātrumi", xlab="Laiks (s)", ylab="Ātrums (m/s)")
+% lines(kernapply(andrejsala$speed[drive1], k), type="l", col="red", lty="dotted")
+% lines(kernapply(andrejsala$speed[drive2], k), type="l", col="red", lty="dotted")
+% lines(kernapply(andrejsala$speed[bike], k), type="l", col="blue", lty="longdash")
+% lines(kernapply(homeUni$speed[trolley], k), type="l", col="black", lty="twodash")
+% legend(0, 23, c("Iešana", "Auto", "Divritens", "Trolejbuss"), col=c("green", "red", "blue", "black"), lty=c("dashed", "dotted", "longdash", "twodash"))
 \section{Pazīmju analīze}
+Attēlā \ref{fig:speed_comparison} redzams dažādu transporta līdzekļu pārvietošanās ātrumu grafisks
+salīdzinājums. Pārskatāmības labad grafiki nolīdzināti ar \emph{(3, 5)} modificēto Daniell filtru.
 
+Modificētais Daniell filtrs ~\cite{daniell1946} ar platumu $m$ tiek definēts kā 
+\begin{eqnarray*}
+  w_i = \begin{cases}
+    \frac{1}{2 (m - 1)} \text{, ja i = 1 vai i = m}\\
+    \frac{1}{m - 1} \text{ citādi}
+    \end{cases}
+\end{eqnarray*}
+Notācija \emph{(3, 5)} nozīmē secīgu filtru ar platumu 3 un 5 pielietošanu, kas ir vienlīdzīga
+abu filtru konvolūcijas pielietošanai.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{img/speed_comparison}
+  \caption{Dažādu transportu pārvietošanās ātrumu salīdzinājums}
+  \label{fig:speed_comparison}
+\end{figure}
+
+Kā redzams attēlā, dotajā gadījumā cilvēkam ir iespējams salīdzinoši skaidri nošķirt transporta 
+veidus jau pēc ātrumiem, taču tikai tad, ja novērojumi veikti pietiekoši ilgā laika periodā.
+Attēlā redzams, ka apmēram pirmās 250 - 300 sekundes braukšanu ar trolejbusu, auto un divriteni
+ir grūti atšķirt. Zinot lietotos transporta veidus un, galvenokārt, to, ka jāmeklē tieši 4 atšķirīgi,
+tos ir iespējams izšķirt, taču šādas zināšanas eksperimenta ietvaros nav dotas.
+
+Attēlā \ref{fig:speed_comparison} redzams arī tas, ka jau tikai pēc ātruma ir viegli nošķirt iešanu
+ar kājām no pārējiem pārvietošanās veidiem, kas apstiprina \emph{GeoLife} projekta ietvaros
+izstrādāto metodi no sākuma grupēt segmentus grupās ``staigāšana'' un ``ne-staigāšana'' un tikai
+pēc tam klasificēt segmentus, kas ir ``ne-staigāšana'' grupā. ~\cite{zheng_gps_segmentation}
+
+
+
+% Apzīmējumu Saraksts 6
+% 1 Ievads 7
+%  1.1 Mērķi 7
+%  1.2 Darba struktūra 7
+% 2 Bilde no augšas \ Pamatprocesu apraskts 9
+%  2.1 Eksistējošie moduļi. 9
+%  2.2 Moduļu sadalijums pa izpildāmām programmām 10
+% 3 Moduļi 13
+%  3.1 Datu iegūšana no pirmkoda 13
+%  3.2 Kas ir LEX? 13
+%  3.2.1 LEX atslēgvārdi 14
+%  3.2.2 LEX\YACC mijiedarbība 18
+%  3.3 Pārveidotājs \ “Transformer” 19
+%  3.4  Datubāze \ “Primal” 20
+%  3.5 Analizētājs \ “Analyser” 20
+%  3.6 Organisms \ “Organism” 20
+%  3.7 Communicator \ “Communicator” 20
+% 4 Datu apstrāde\analīze 21
+% 5 Programmas izvada apstrāde 22
+% 6 Salīdzinājums ar līdzīgu porgrammatūru 23
+% 7 Rezultāti. 24
+% 8 Izmantotā literatūra 25
+% 9 Pielikumi 26
 
 \literatura{es09260}
 
