@@ -59,14 +59,15 @@ xetex]{hyperref}
 
 \begin{abstract-lv}
   Darba mērķis ir izstrādāt neuzraudzītās mašīnmācīšanās algoritmu un atrast pazīmes, kas spētu
-  sadalīt ierakstītu GPS datu ceļu atsevišķos fragmentos pēc pārvietošanās metodes.
+  sadalīt ierakstītu GPS datu ceļu atsevišķos fragmentos pēc pārvietošanās metodes bez jebkādas 
+  lietotāja atgriezeniskās saites.
   \keywords{mašīnmācīšanās, telpiskā datizrace, GPS datu analīze, \linebreak klasterizācija}
 \end{abstract-lv}
 
 \begin{abstract-en}
   The goal of this thesis is to develop an unsupervised machine-learning algo\-rithm and find the 
   necessary features to split a recorded path of GPS coordi\-nates into segments based on
-  transportation modes.
+  transportation modes without any explicit user feedback.
   \keywords{machine learning, spatial data mining, GPS data analysis, \linebreak clusterization}
 \end{abstract-en}
 
@@ -108,7 +109,7 @@ Darbu uzsākot ir izvirzīta hipotēze, ka ir iespējams šos ierakstītos GPS c
 
 % TODO: darba struktūras apraksts
 
-pDarba rezultāti rāda ka ierakstīto ceļu segmentācija un klasterizācija ir iespējama un veiksmīga,
+Darba rezultāti rāda ka ierakstīto ceļu segmentācija un klasterizācija ir iespējama un veiksmīga,
 taču nepieciešama tālāka izpēte, lai uzlabotu rezultātu precizitāti.
 
 \chapter{Uzdevuma izpēte}
@@ -134,7 +135,8 @@ izmanto telefona akselerometru, žiroskopu un GPS sensoru, kas:
 \end{itemize}
 
 Līdz šim nav izstrādāts algoritms un tā implementācija, kas ļautu seg\-mentēt GPS ierakstu daļās un 
-šīs daļas veiksmīgi grupēt bez lietotāja atgrie\-zeniskās saites.
+šīs daļas veiksmīgi grupēt bez lietotāja atgrie\-zeniskās saites un papildus informācijas ievada
+sistēmā (piemēram, sabiedriskā transporta maršrutiem un sarakstiem).
 
 Šāda algoritma pieejamība ļautu 
 \begin{itemize}
@@ -146,13 +148,14 @@ Līdz šim nav izstrādāts algoritms un tā implementācija, kas ļautu seg\-me
 \end{itemize}
 
 \section{Pastāvošie risinājumi}
-Veiksmīgākā esošā metode šīs problēmas risināšanai ir Yu Zheng izstrā\-dāts uzraudzītās mašīnmācīšanās
-algoritms, kas balstīts uz lēmumu kokiem. ~\cite{zheng_gps_segmentation} Lai arī šim algoritmam
-ir salīdzinoši augsta precizitāte, tas ir slikti mērog\-ojams, jo izmanto uzraudzīto mašīnmācīšanos,
-kas nozīmē, ka kādam -- \linebreak parasti datu autoriem -- ir jāiezīmē dati, un šādi iezīmēti
-dati jāievāc pietie\-koši daudz, lai pietiktu algoritma apmācībai, kā arī tas ir limitēts autoru 
-noteikto transportācijas veidu ietvaros. Rakstā tiek minēta klasifikācija starp staigāšanu, 
-braukšanu ar mašīnu, braukšanu ar sabiedrisko transportu un braukšanu ar velosipēdu. 
+Veiksmīgākā esošā metode šīs problēmas risināšanai ir Yu Zheng et al. izstrā\-dāts uzraudzītās
+mašīnmācīšanās algoritms, GeoLife projekta ietvaros, kas balstīts uz lēmumu 
+kokiem. ~\cite{zheng_gps_segmentation} Lai arī šim algoritmam ir salīdzinoši augsta precizitāte, 
+tas ir slikti mērog\-ojams, jo izmanto uzraudzīto mašīn\-mācīšanos, kas nozīmē, ka kādam -- parasti
+datu autoriem -- ir jāiezīmē dati, un šādi iezīmēti dati jāievāc pietie\-koši daudz, lai pietiktu
+algoritma apmācībai, kā arī tas ir limitēts autoru 
+noteikto transportācijas veidu iet\-varos. Rakstā tiek minēta klasifikācija starp staigāšanu, 
+braukšanu ar \linebreak automašīnu, braukšanu ar sabiedrisko transportu un braukšanu ar velo\-sipēdu. 
 
 Šīs pieejas problēmas un ierobežojumi ir:
 \begin{itemize}
@@ -161,6 +164,54 @@ braukšanu ar mašīnu, braukšanu ar sabiedrisko transportu un braukšanu ar ve
 \item sliktākajā -- jauns pārvietošanās veids vispār netiek pamanīts un \linebreak 
   konsekventi tiek nepareizi klasificēts kā viens no zināmajiem.
 \end{itemize}
+
+Citi risinājumi ir vecāki un tajos izmantotās metodes un veiktie atklājumi ir iekļauti
+augstākminētajā risinājumā.
+
+\section{Iespējamie problēmas risinājumi}
+GeoLife projekta ietvaros izstrādātajam algoritmam GPS ceļu segmentācijai ir priekšrocības 
+pār alternatīvajām ``vienmērīgā laika'' un ``vienmērīgā attāluma'' metodēm, un tās ir
+eksperimentāli demonstrētas -- reālajā dzīvē cilvēku pārvietošanās veidu sadalījums laikā 
+un attālumā nav ne tuvu vienmērīgs, tādēļ izstrādātais maiņas-punktu algoritms strādā labāk.
+Algoritma veiktspēja ir pietiekoša -- tipiski $\sim$ 35\% - 40\% 
+precizitāte un $\sim$ 70\% - 80\% jutība ~\cite{zheng_gps_segmentation} -- 
+lai neuzskatītu to par primāro problēmu, izmantotu tā implementāciju GPS ceļu segmentēšanai 
+un pievērstos atrasto segmentu grupēšanas problēmai un, kad tiks atrasts piemērots risinājums
+segmentu grupēšanai, atgrieztos pie šīs daļas precizitātes uzlabošanas.
+
+Līdzīgu segmentu grupēšana pēc kādām pazīmēm ir klasifikācijas vai klasterizācijas problēma. Tā kā
+darba mērķis ir izslēgt jebkādu atgriezenisku saiti ar lietotāju, un klasifikācija ir uzraudzītās
+mašīnmācīšanās problēma, risinājumi jebkurā gadījumā būs saistīti ar klasterizāciju.
+
+Lai varētu klasterizēt segmentus grupās, nepieciešamas kādas pazīmes, pēc kurām tos grupēt. Tādējādi,
+mērķis ir atrast tādas pazīmes, pēc kurām varētu veiksmīgi klasterizēt iegūtos GPS segmentus tā,
+lai iegūtās grupas veidotu dažādus pārvietošanās veidus.
+
+\chapter{Ievākto datu analīze}
+\section{Datu formāts}
+Darbā izmantotie dati ir ievākti ar \emph{Samsung Galaxy Note (GT-N7000)} viedtālruni, izmantojot
+\emph{MyTracks} programmatūru. Datu iztveršanas intervāls tika iestatīts uz mazāko iespējamo,
+šajā gadījumā, vienu sekundi. Dati ir ievākti Rīgā, laika periodā no 2012. gada februāra līdz 
+2013. gada maijam. Datos ir dati par pārvietošanos ar kājām, braukšanu ar automašīnu, trolejbusu,
+autobusu, tramvaju un vilcienu, kā arī braukšanu ar divriteni. Datu pārklājums pilsētas ietvaros 
+ir pietiekoši vispārīgs, lai nebūtu pamata domāt par rezultātu novirzi tikai viena konkrēta 
+maršruta izvēles dēļ. Attēlā \ref{fig:all_trails} redzamajos ceļos par orientieriem var izmantot
+centrā redzamos 4 tiltus -- no augšas --, Vanšu, Akmens, Salu un Dienvidu.
+
+Apstrādājamo datu formāts ir trijnieki \emph{(garums, platums, laiks)}. Garums un platums doti 
+grādos. Tajos nepieciešams atrast pazīmes, kas ļautu noteikt atšķirību starp dažādajiem 
+pārvietošanās veidiem. Pamatā, tas nozīmē, ka pieejams ir virziena vektors un laiks -- no tiem
+seko arī attālums, ātrums, paātrinājums un virziena maiņa.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{img/all_trails}
+  \caption{Ierakstīto datu pārklājums Rīgā}
+  \label{fig:all_trails}
+\end{figure}
+
+\section{Pazīmju analīze}
+
 
 \literatura{es09260}
 
