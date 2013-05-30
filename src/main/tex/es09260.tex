@@ -83,12 +83,6 @@ xetex]{hyperref}
   \endhead
   \hline
   GPS & Globālā pozicionēšanas sistēma\\
-  JVM & Java Virtuālā Mašīna\\
-  BLAS & Basic Linear Algebra Subprograms, funkciju kopa, kas nodrošina pamata lineārās algebras 
-  funkcionalitāti\\
-  LAPACK & Linear Algebra PACKage, BLAS funkciju kopas paplašinājums, balstoties uz to\\
-  Paralelizācija & Savstarpēji neatkarīgu programmas daļu vienlaicīga izpilde uz dažādiem procesora
-  kodoliem vai procesoriem\\
   \hline
 \end{longtable}
 
@@ -396,34 +390,68 @@ redzams, ka piemērots $k$ ir $6$ vai $7$.
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.5]{img/kmeans_elbow}
+  \includegraphics[scale=0.45]{img/kmeans_elbow}
   \caption{Klasteru skaita $k$ izskaidrotā dispersija}
   \label{fig:kmeans_elbow}
 \end{figure}
 
-% Apzīmējumu Saraksts 6
-% 1 Ievads 7
-%  1.1 Mērķi 7
-%  1.2 Darba struktūra 7
-% 2 Bilde no augšas \ Pamatprocesu apraskts 9
-%  2.1 Eksistējošie moduļi. 9
-%  2.2 Moduļu sadalijums pa izpildāmām programmām 10
-% 3 Moduļi 13
-%  3.1 Datu iegūšana no pirmkoda 13
-%  3.2 Kas ir LEX? 13
-%  3.2.1 LEX atslēgvārdi 14
-%  3.2.2 LEX\YACC mijiedarbība 18
-%  3.3 Pārveidotājs \ “Transformer” 19
-%  3.4  Datubāze \ “Primal” 20
-%  3.5 Analizētājs \ “Analyser” 20
-%  3.6 Organisms \ “Organism” 20
-%  3.7 Communicator \ “Communicator” 20
-% 4 Datu apstrāde\analīze 21
-% 5 Programmas izvada apstrāde 22
-% 6 Salīdzinājums ar līdzīgu porgrammatūru 23
-% 7 Rezultāti. 24
-% 8 Izmantotā literatūra 25
-% 9 Pielikumi 26
+Izvēloties klasterizēt GPS ceļu segmentus $6$ klasteros redzami labi rezultāti. Attēlā 
+\ref{fig:clustered_trails} redzams sagrupēto segmentu grafisks attēlojums. Gaišākie, 
+spilgti zilie ceļi aptuveni atbilst maršrutiem, kas datos ir mēroti ar divriteni, violetie -- 
+maršrutiem, kas ieti ar kājām, tumši zilie -- ikdienā lietotajiem trolejbusa maršrutiem un liela daļa
+sarkano ceļu -- maršrutiem, kas veikti pārvietojoties ar automašīnu.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.45]{img/clustered_trails}
+  \caption{Klasterizēto GPS segmentu projekcija}
+  \label{fig:clustered_trails}
+\end{figure}
+
+\chapter{Rezultāti}
+\section{Kļūdas}
+Iegūtajos klasteros ir acīmredzamas kļūdas, piemēram, kreisajā pusē redzamais violetais loks, kaut
+gan pārējie violetie ceļa posmi šķietami atbilst ar kājām mērotiem maršrutiem. Konkrētais gadījums
+šķietami skaidrojams ar to, ka tas ir ceļš uz lidostu un veikts ārpus pilsētas, līdz ar ko
+paātrinājums bijis salīdzinoši konstants. Iespējams šī kļūda tiktu labota, ja par papildus pazīmi
+tiktu izvēlēts arī ātrums.
+
+Šī pati kļūda norāda uz vēl vienu apstākli -- ievāktā datu kopa, lai arī sākotnēji šķietami 
+vispusīga, ir ar trūkumiem. Dati ievākti pilsētā, tajos nav, piemēram, pārvietošanās ar auto
+pa lielceļiem lielākos ātrumos. 
+
+Rezultātos redzama arī viena transporta veida šķelšanās divos klasteros. Ceļi, kas iezīmēti zaļā
+krāsā, ir pārvietošanās ar auto, taču tādi ir arī lielākā daļa sarkano. Ticami, ka arī šo
+problēmu iespējams atrisināt ar papildus pazīmju ieviešanu. 
+
+\section{Secinājumi}
+Augstā frekvencē ierakstītus GPS datu ceļus ir iespējams veiksmīgi dalīt segmentos un klasterizēt
+pēc izmantotā transporta veida. Kaut arī rezultātos ir kļūdas, sasniegta pietiekoši augsta
+precizitāte, lai būtu pamats domāt, ka to var tālāk uzlabot strādājot pie abām algoritma
+daļām.
+
+Ir eksperimentāli pierādīts, ka pilsētas apstākļos ievāktus reālus GPS datus ir iespējams
+klasterizēt tikai pēc pazīmēm, kas atvasinātas no to paātrinājuma, kas norāda uz to, ka paātrinājums
+ir vērtīga pazīme, ko ņemt vērā turpmākajā algoritma izstrādē.
+
+Ņemot vērā darba rezultātus, hipotēzi, ka ierakstītus GPS ceļus iespējams segmentēt un klasterizēt
+pēc transporta veidiem var uzskatīt par apstiprinātu.
+
+Izstrādātajā algoritmā klasterizācija veikta izmantojot tikai no paātrinājuma atvasinātas pazīmes,
+kā rezultātā atklātas nepilnības ievāktajos datos.
+
+\section{Virzieni tālākai izpētei}
+Ir saprātīgi pieņemt, ka algoritma precizitāti varētu ievērojami uzlabot pievienojot papildus
+pazīmes, sākot ar ātrumu, bet arī virziena maiņas biežumu un lielumu, apstāšanās biežumu u. tml.
+
+Nepieciešams papildināt un padarīt vispārīgāku ievākto datu kopu. Darba izstrādes gaitā atklātās
+nepilnības datos novērst nav grūti, bet ir salīdzinoši laikietilpīgi. Taču bez vispusīgākiem
+datiem pastāv risks ka tālāka izpēte būtu tendencioza, ar noslieci uz pilsētas apstākļiem, kas
+pats par sevi nav slikti, bet arī nav šī darba mērķis.
+
+Nepieciešams papildināt datus ar citu cilvēku GPS ierakstiem. Pašreizējā datu kopā ir tikai darba
+autora ierakstītie GPS ceļi. Katram cilvēkam, iespējams, ir individuāli braukšanas ieradumi, kas
+arī varētu ieviest datos liekas tendences.
 
 \literatura{es09260}
 
