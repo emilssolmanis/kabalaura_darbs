@@ -41,6 +41,7 @@ xetex]{hyperref}
 \urlstyle{same}
 \usepackage{cite}
 
+\usepackage{xfrac}
 %% \usepackage{amsmath}
 %% \usepackage{amssymb}
 %% \usepackage{enumerate}
@@ -117,12 +118,12 @@ taču nepieciešama tālāka izpēte, lai uzlabotu rezultātu precizitāti.
 Mūsdienās ļoti daudzām ierīcēm ir pieejams GPS sensors. Tas ir praktiski jebkurā mūsdienīgā mobilajā
 tālrunī un daudzās citās ierīcēs. Piemēram, ASV Federālā Komunikāciju Komisija ir noteikusi, ka līdz
 2018. gadam glāb\-šanas dienestu vajadzībām visām bezvadu ierīcēm ir jāspēj būt atrodamām 
-ar 50 pēdu precizitāti ~\cite{fcc_e911}, kas praktiski ir grūti panākams ar torņu trian\-gulācijas 
+ar $50$ pēdu precizitāti ~\cite{fcc_e911}, kas praktiski ir grūti panākams ar torņu trian\-gulācijas 
 metodēm un vēl vairāk sekmēs GPS sensoru ieviešanu bezvadu ierīcēs.
 
 Līdz ar GPS ierīču popularitātes un skaita pieaugumu, ir pieaudzis arī šo ierīču ģenerēto datu
 plūsmas lielums. Ļoti daudzi lietotāji izmanto GPS sensorus, lai ierakstītu savas sporta aktivitātes,
-piemēram, lietotnei Endo\-mondo vien ir $\sim$ 5 000 000 - 10 000 000 ~\cite{g_play_endomondo} 
+piemēram, lietotnei Endo\-mondo vien ir $\sim$ $5000000$ - $10000000$ ~\cite{g_play_endomondo} 
 lejupielādes Android platformā. \emph{Apple} nepublicē pat aptuvenu statistiku par \emph{iOS}
 lejupielādēm.
 
@@ -173,8 +174,8 @@ GeoLife projekta ietvaros izstrādātajam algoritmam GPS ceļu segmentācijai ir
 pār alternatīvajām ``vienmērīgā laika'' un ``vienmērīgā attāluma'' metodēm, un tās ir
 eksperimentāli demonstrētas -- reālajā dzīvē cilvēku pārvietošanās veidu sadalījums laikā 
 un attālumā nav ne tuvu vienmērīgs, tādēļ izstrādātais maiņas-punktu algoritms strādā labāk.
-Algoritma veiktspēja ir pietiekoša -- tipiski $\sim$ 35\% - 40\% 
-precizitāte un $\sim$ 70\% - 80\% jutība ~\cite{zheng_gps_segmentation} -- 
+Algoritma veiktspēja ir pietiekoša -- tipiski $\sim$ $35\%$ - $40\%$
+precizitāte un $\sim$ $70\%$ - $80\%$ jutība ~\cite{zheng_gps_segmentation} -- 
 lai neuzskatītu to par primāro problēmu, izmantotu tā implementāciju GPS ceļu segmentēšanai 
 un pievērstos atrasto segmentu grupēšanas problēmai un, kad tiks atrasts piemērots risinājums
 segmentu grupēšanai, atgrieztos pie šīs daļas precizitātes uzlabošanas.
@@ -196,7 +197,7 @@ Darbā izmantotie dati ir ievākti ar \emph{Samsung Galaxy Note (GT-N7000)} vied
 autobusu, tramvaju un vilcienu, kā arī braukšanu ar divriteni. Datu pārklājums pilsētas ietvaros 
 ir pietiekoši vispārīgs, lai nebūtu pamata domāt par rezultātu novirzi tikai viena konkrēta 
 maršruta izvēles dēļ. Attēlā \ref{fig:all_trails} redzamajos ceļos par orientieriem var izmantot
-centrā redzamos 4 tiltus -- no augšas --, Vanšu, Akmens, Salu un Dienvidu.
+centrā redzamos $4$ tiltus -- no augšas --, Vanšu, Akmens, Salu un Dienvidu.
 
 Apstrādājamo datu formāts ir trijnieki \emph{(garums, platums, laiks)}. Garums un platums doti 
 grādos. Tajos nepieciešams atrast pazīmes, kas ļautu noteikt atšķirību starp dažādajiem 
@@ -219,17 +220,18 @@ seko arī attālums, ātrums, paātrinājums un virziena maiņa.
 % lines(kernapply(homeUni$speed[trolley], k), type="l", col="black", lty="twodash")
 % legend(0, 23, c("Iešana", "Auto", "Divritens", "Trolejbuss"), col=c("green", "red", "blue", "black"), lty=c("dashed", "dotted", "longdash", "twodash"))
 \section{Pazīmju analīze}
+\subsection{Ātrums}
 Attēlā \ref{fig:speed_comparison} redzams dažādu transporta līdzekļu pārvietošanās ātrumu grafisks
-salīdzinājums. Pārskatāmības labad grafiki nolīdzināti ar \emph{(3, 5)} modificēto Daniell filtru.
+salīdzinājums. Pārskatāmības labad grafiki nolīdzināti ar $(3, 5)$ modificēto Daniell filtru.
 
 Modificētais Daniell filtrs ~\cite{daniell1946} ar platumu $m$ tiek definēts kā 
-\begin{eqnarray*}
+\begin{align*}
   w_i = \begin{cases}
-    \frac{1}{2 (m - 1)} \text{, ja i = 1 vai i = m}\\
-    \frac{1}{m - 1} \text{ citādi}
+    \frac{1}{2 (m - 1)} &\text{, ja i = 1 vai i = m}\\
+    \frac{1}{m - 1} &\text{ citādi}
     \end{cases}
-\end{eqnarray*}
-Notācija \emph{(3, 5)} nozīmē secīgu filtru ar platumu 3 un 5 pielietošanu, kas ir vienlīdzīga
+\end{align*}
+Notācija $(3, 5)$ nozīmē secīgu filtru ar platumu $3$ un $5$ pielietošanu, kas ir vienlīdzīga
 abu filtru konvolūcijas pielietošanai.
 
 \begin{figure}
@@ -241,14 +243,54 @@ abu filtru konvolūcijas pielietošanai.
 
 Kā redzams attēlā, dotajā gadījumā cilvēkam ir iespējams salīdzinoši skaidri nošķirt transporta 
 veidus jau pēc ātrumiem, taču tikai tad, ja novērojumi veikti pietiekoši ilgā laika periodā.
-Attēlā redzams, ka apmēram pirmās 250 - 300 sekundes braukšanu ar trolejbusu, auto un divriteni
-ir grūti atšķirt. Zinot lietotos transporta veidus un, galvenokārt, to, ka jāmeklē tieši 4 atšķirīgi,
-tos ir iespējams izšķirt, taču šādas zināšanas eksperimenta ietvaros nav dotas.
+Attēlā redzams, ka apmēram pirmās $250$ - $300$ sekundes braukšanu ar trolejbusu, auto un divriteni
+ir grūti atšķirt. Zinot lietotos transporta veidus un, galvenokārt, to, ka jāmeklē tieši $4$ 
+atšķirīgi, tos ir iespējams izšķirt, taču šādas zināšanas eksperimenta ietvaros nav dotas.
 
 Attēlā \ref{fig:speed_comparison} redzams arī tas, ka jau tikai pēc ātruma ir viegli nošķirt iešanu
 ar kājām no pārējiem pārvietošanās veidiem, kas apstiprina \emph{GeoLife} projekta ietvaros
 izstrādāto metodi no sākuma grupēt segmentus grupās ``staigāšana'' un ``ne-staigāšana'' un tikai
 pēc tam klasificēt segmentus, kas ir ``ne-staigāšana'' grupā. ~\cite{zheng_gps_segmentation}
+
+% par(family="AvantGarde")
+% k <- kernel("modified.daniell", c(3, 5))
+% plot(kernapply(andrejsalaAccels$acceleration[walk], k), type="l", ylim=c(-1.0, 1.0), xlim=c(0, 300), lty="dashed", col="green", main="Pārvietošanās paātrinājumi", xlab="Laiks (s)", ylab="Paātrinājums (m/s²)")
+% lines(kernapply(andrejsalaAccels$acceleration[drive1], k), type="l", lty="dotted", col="red")
+% lines(kernapply(andrejsalaAccels$acceleration[bike], k), type="l", lty="longdash", col="blue")
+% lines(kernapply(homeUniAccels$acceleration[trolley], k), type="l", lty="twodash", col="black")
+% legend(20, 1.0, c("Iešana", "Auto", "Divritens", "Trolejbuss"), col=c("green", "red", "blue", "black"), lty=c("dashed", "dotted", "longdash", "twodash"))
+\subsection{Paātrinājums}
+Attēlā \ref{fig:acceleration_comparison} redzams dažādu pārvietošanās veidu paātrinājumu 
+salīdzinājums. Pārskatāmības labad grafiki nolīdzināti ar $(3, 5)$ modificēto Daniell filtru.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{img/acceleration_comparison}
+  \caption{Dažādu transportu pārvietošanās paātrinājumu salīdzinājums}
+  \label{fig:acceleration_comparison}
+\end{figure}
+
+Arī pēc paātrinājuma visvieglāk ir atšķirt iešanu ar kājām no pārējiem pārvietošanās veidiem. 
+Amplitūdu atšķirības nav pārāk lielas absolūto vērtību ziņā, taču relatīvi tās ir vērā ņemamas.
+
+Piemēram, redzams, ka, braucot ar divriteni, paātrinājuma amplitūda ir $0.44\,\sfrac{m}{s^2}$,
+braucot ar auto -- $0.92\,\sfrac{m}{s^2}$, braucot ar trolejbusu -- $0.65\,\sfrac{m}{s^2}$, 
+bet ejot ar kājām -- $0.23\,\sfrac{m}{s^2}$ \emph{(vērtības nogludinātajai līknei)}. 
+
+Tātad pārvietojoties ar divriteni paātrinājuma amplitūda ir $2$ reizes
+lielāka, nekā pārvietojoties ar kājām, un pārvietojoties ar auto tā ir $2$ reizes lielāka nekā
+braucot ar divriteni. Paātrinājuma amplitūda pārvietojoties ar trolejbusu ir pa vidu starp
+divriteņa un auto rādītājiem un bez lielas noslieces uz kādu no tiem. Tas, savukārt, liek domāt,
+ka paātrinājums varētu būt ļoti labs rādītājs, lai izšķirtu dažādos pārvietošanās veidus -- jau
+pēc amplitūdām vien mēs varam diezgan viennozīmīgi izšķirt šos četrus transportus.
+
+Taču amplitūdas nav vienīgais svarīgais rādītājs, kas redzams šajā attēlā. Ir skaidri redzamas
+atšķirības attēloto paātrinājumu frekvencēs. Iešanas paātrinājums mainās visātrāk, auto
+un trolejbusam tas ir līdzīgs, taču auto paātrinājumam šķietami ir arī ātrāk mainīgas komponentes
+un trolejbusa paātrinājums ir vienmērīgāks. Pārvietojoties ar divriteni, paātrinājums mainās
+vislēnāk.
+
+Tas liek domāt, ka būtu lietderīgi veikt padziļinātu frekvenču analīzi paātrinājumiem.
 
 
 
