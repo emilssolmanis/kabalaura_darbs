@@ -292,7 +292,114 @@ vislēnāk.
 
 Tas liek domāt, ka būtu lietderīgi veikt padziļinātu frekvenču analīzi paātrinājumiem.
 
+% par(mfrow=c(2, 2),
+%     family="AvantGarde",
+%     oma=c(0, 0, 2, 0),
+%     mai=c(0.1, 0.4, 0.4, 0.1)); # bottom left top right
+% fftData <- andrejsalaAccels$acceleration[walk]; 
+% barplot(Mod(fft(fftData) / length(fftData)), main="Iešana");
+% fftData <- andrejsalaAccels$acceleration[drive1]; 
+% barplot(Mod(fft(fftData) / length(fftData)), main="Automašīna");
+% fftData <- andrejsalaAccels$acceleration[bike]; 
+% barplot(Mod(fft(fftData) / length(fftData)), main="Divritenis");
+% fftData <- homeUniAccels$acceleration[trolley]; 
+% barplot(Mod(fft(fftData) / length(fftData)), main="Trolejbuss");
+% title(main="Nenolīdzinātu paātrinājumu Furjē analīze", outer=TRUE, cex.main=2);
 
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{img/fourier_analysis}
+  \caption{Dažādu transportu pārvietošanās paātrinājumu Furjē analīze}
+  \label{fig:fourier_analysis}
+\end{figure}
+
+Lai noteiktu signāla frekvenču komponentes, lieto Furjē transformāciju. Diskrētā Furjē transformācija
+tiek definēta kā 
+\begin{align*}
+  \omega &= \exp \left (\frac{2 \pi i}{N} \right)\\
+  x_k &= \sum_{n = 0}^{N - 1} x_n \cdot \omega^{-kn}
+\end{align*}
+un tā transformē signālu no laika vērtību apgabala uz frekvenču vērtību apgabalu.
+
+Paātrinājumu Furjē komponenšu absolūtās vērtības attēlotas 
+grafikā \ref{fig:fourier_analysis}. Redzams, ka tās manāmi atšķiras transporta veidiem. Iešanai ar
+kājām ir izteiktas augstās frekvences komponentes un salīdzinoši spēcīgas arī vidējās frekvences.
+Paātrinājumam braucot ar auto spēcīgās frekvences ir daudz koncentrētākas tieši augstajās.
+Braukšanai ar divriteni ir mazākas amplitūdas un vienmērīgāk pārstāvēts spektrs, savukārt trolejbusa
+paātrinājumam ir divi izteikti ``pīķi'' augstajā frekvenču zonā un vidējas amplitūdas.
+
+Furjē analīze tālāk apstiprina hipotēzi par paātrinājumu kā piemērotu pazīmi segmentu 
+klasterizācijai. 
+
+\chapter{Problēmas risinājums}
+\section{Pazīmju inženierija}
+Furjē transformācijas rezultāts ir kompleksu skaitļu kopa, kas izsaka laika virknes datus
+kā vairāku, dažādu frekvenču, sinusoīdu summu un norāda šo sinusoīdu amplitūdas un fāzes nobīdes.
+Šie dati acīmredzami tiešā veidā nav piemēroti klasterizācijas problēmas risināšanai, jo:
+\begin{itemize}
+\item transformācijas rezultāts ir simetrisks; pastāv informācijas dubultošanās;
+\item transformācijas rezultāts ir komplekss.
+\end{itemize}
+
+Lai risinātu klasterizācijas problēmu, mums nepieciešama metrika, kas izsaka tieši cik lielu 
+ietekmi uz visu signālu izdara katra periodiskā komponente. To var veiksmīgāk panākt ar 
+spektrālo analīzi un periodogrammām. ~\cite{bloomfield2004} Periodogrammu definē kā
+\begin{align*}
+  I(f) = n | d(f) |^2
+\end{align*}
+kur $d(f)$ ir diskrētā Furjē transformācija.
+
+Transporta veidu paātrinājumu periodogrammas attēlotas attēlā \ref{fig:periodograms}. Pielietota
+nolīdzināšana ar modificēto Daniell filtru $(5, 9)$, lai mazinātu mērījuma trokšņus.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{img/periodograms}
+  \caption{Dažādu transportu pārvietošanās paātrinājumu periodogrammas}
+  \label{fig:periodograms}
+\end{figure}
+
+Pēc periodogrammām redzams, ka visus četrus transporta veidus var viegli izšķirt. Tas liek domāt,
+ka nogludinātās periodogrammas var lietot kā ieeju klasterizācijas algoritmam.
+
+\section{Klasterizācija}
+Segmentu klasterizācijai tiek izmantots \emph{K-means} algoritms ~\cite{Rcore}, jo:
+\begin{itemize}
+\item tam ir pieejamas daudzas gatavas implementācijas;
+\item tas ir ātrs;
+\item tas garantēti konverģē.
+\end{itemize}
+
+Algoritmam ieejā nepieciešami vienādas dimensionalitātes paraugi, taču periodogrammas ir atšķirīgu
+garumu. Iespējas ir 
+\begin{itemize}
+\item izvēlēties dimensiju skaitu, kas vienāds ar garāko paraugu un interpolēt vērtības 
+  vajadzīgajām frekvencēm paraugiem ar mazāku dimensionalitāti;
+\item pirms veikt Furjē transformāciju, pagarināt paraugu ar $0$ līdz nepieciešamajam garumam.
+\end{itemize}
+
+Abas alternatīvas sniedz praktiski identisku gala rezultātu. Tā kā izvēlētā FFT
+implementācija ~\cite{commons_math} jau pieprasa, lai parauga garums būtu $2$ pakāpe, 
+izvēlēta otrā alternatīva un visi paraugi pirms transformācijas tika pagarināti līdz garumam $2048$.
+
+Pirms klasterizācijas tika atmesti segmenti, kuros sākotnēji bija mazāk nekā $60$ datu punktu (t.i.,
+laikā īsāki par $1$ minūti), uzskatot, ka tie satur pārāk maz informācijas un ir segmentācijas
+algoritma anomālijas. Periodogrammas tika izteiktas decibelu skalā, lai palielinātu signāla / 
+trokšņa attiecību.
+
+Klasteru skaita izvēlei populāra ir t.s. ``elkoņa metode'', saskaņā ar kuru klasteru skaitu $k$
+izvēlas pēc attiecīgā klasteru skaita izskaidrotās dispersijas. $k$ izvēlas tādu, ka, palielinot
+$k$ par $1$, izskaidrotās dispersijas apjoms manāmi nepalielinās.
+
+Klasteru skaita izskaidrotā dispersijas grafiks redzams attēlā \ref{fig:kmeans_elbow}. Grafikā 
+redzams, ka piemērots $k$ ir $6$ vai $7$.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{img/kmeans_elbow}
+  \caption{Klasteru skaita $k$ izskaidrotā dispersija}
+  \label{fig:kmeans_elbow}
+\end{figure}
 
 % Apzīmējumu Saraksts 6
 % 1 Ievads 7
