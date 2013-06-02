@@ -157,7 +157,7 @@
     \vskip 2em
     {\large \@darbaveidsLB\ DARBS\par}% 
    \end{center}\par
-   \begin{flushright}
+   \begin{flushleft}
     \vskip 7em%
     {%
       \begin{tabular}[t]{l}%
@@ -166,7 +166,7 @@
        Darba vad\={\i}t\={a}js: \@vaditajs
       \end{tabular}\par}%
       \vskip 1.5em%
-    \end{flushright}
+    \end{flushleft}
     \vskip 7em%
     {\centering\large \MakeUppercase{\@vieta} \@date\par}
   \vfil\null
@@ -192,7 +192,7 @@
 		 \tiny{(datums)}
 	\end{tabular}
 	\vskip 3em%
-	Rekomend\={e}ju darbu aizst\={a}v\={e}\v{s}anai.\par
+	Rekomend\={e}ju / nerekoment\={e}ju darbu aizst\={a}v\={e}\v{s}anai.\par
 	Vad\={\i}t\={a}js: \@vaditajs\par
 	\vskip 2em
 	\hspace{4em}\begin{tabular}{cc}%
@@ -218,8 +218,8 @@
 	\end{tabular}\par
 	\vskip 1em
 	\begin{tabular}{c}%
-		\underline{\hspace{25em}}\vspace{-2mm} \\
-		 \tiny{(darbu pie\c{n}\={e}ma)}
+        Dek\={a}na pilnvarot\={a} persona:
+		\underline{\hspace{15em}}\vspace{-2mm} \\
 	\end{tabular}
 	\vskip 5em%
 	Darbs aizst\={a}v\={e}ts \MakeLowercase{\@darbaveids} gala p\={a}rbaud\={\i}juma komisijas s\={e}d\={e}\par
