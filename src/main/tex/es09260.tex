@@ -16,10 +16,11 @@
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.png,.eps}
 
+\usepackage{libertine}
 % fonts
-\setmainfont[Mapping=tex-text]{DejaVu Serif}
-\setsansfont[Mapping=tex-text]{DejaVu Sans}
-\newfontfamily\russianfont{DejaVu Serif}
+% \setmainfont[Mapping=tex-text]{DejaVu Serif}
+% \setsansfont[Mapping=tex-text]{DejaVu Sans}
+% \newfontfamily\russianfont{DejaVu Serif}
 
 % toc
 \setcounter{secnumdepth}{3}
@@ -59,17 +60,24 @@ xetex]{hyperref}
 \maketitle
 
 \begin{abstract-lv}
+  GPS ir navigācijas sistēma, kas ar satelītu palīdzību nodrošina attiecīga uztvērēja īpašniekam
+  iespēju noteikt precīzu savu atrašanās vietu uz Zemes virsmas vai tuvu tai. Šī sensora rādījumus
+  var ierakstīt kopā ar laiku, tādējādi fiksējot sensora īpašnieka atrašanās vietu vēsturi.
   Darba mērķis ir izstrādāt neuzraudzītās mašīnmācīšanās algoritmu un atrast pazīmes, kas spētu
   sadalīt ierakstītu GPS datu ceļu atsevišķos fragmentos pēc pārvietošanās metodes bez jebkādas 
   lietotāja atgriezeniskās saites.
-  \keywords{mašīnmācīšanās, telpiskā datizrace, GPS datu analīze, \linebreak klasterizācija}
+  \keywords{mašīnmācīšanās, telpiskā datizrace, GPS datu analīze, klasterizācija}
 \end{abstract-lv}
 
 \begin{abstract-en}
-  The goal of this thesis is to develop an unsupervised machine-learning algo\-rithm and find the 
-  necessary features to split a recorded path of GPS coordi\-nates into segments based on
+  GPS is a navigational system, which, with the help of multiple sattelites, allows the owner
+  of a receiver to determine his or her location on the surface of Earth or close to it. The
+  sensor's readings can be recorded along with current time to produce the sensor's owner's 
+  travel history.
+  The goal of this thesis is to develop an unsupervised machine-learning algorithm and find the 
+  necessary features to split a recorded path of GPS coordinates into segments based on
   transportation modes without any explicit user feedback.
-  \keywords{machine learning, spatial data mining, GPS data analysis, \linebreak clusterization}
+  \keywords{machine learning, spatial data mining, GPS data analysis, clusterization}
 \end{abstract-en}
 
 \tableofcontents
@@ -281,6 +289,11 @@ segmentu grupēšanai, atgrieztos pie šīs daļas precizitātes uzlabošanas.
 Līdzīgu segmentu grupēšana pēc kādām pazīmēm ir klasifikācijas vai klasterizācijas problēma. Tā kā
 darba mērķis ir izslēgt jebkādu atgriezenisku saiti ar lietotāju, un klasifikācija ir uzraudzītās
 mašīnmācīšanās problēma, risinājumi jebkurā gadījumā būs saistīti ar klasterizāciju.
+
+Konkrētas klasterizēšanas metodes izvēle ir eksperimentāls process, taču nav vērts sākt ar 
+sarežģītākām metodēm, ja nav pierādīts, ka risinājums vismaz konceptuāli strādā. Viens
+no vienkāršākajiem un arī ātrākajiem klasterizācijas algoritmiem ir \emph{K-means} algoritms.
+Tas arī tiks lietots darba ietvaros lai grupētu atrastos GPS segmentus.
 
 \chapter{Problēmas risinājums}
 \section{Pieejas izklāsts}

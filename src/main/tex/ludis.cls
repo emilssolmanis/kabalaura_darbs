@@ -1,5 +1,5 @@
-\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{ludis}[2009/06/03 LU diplomdarbu stils]
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{ludis}[2012/10/08 LU diplomdarbu stils]
 
 \newcommand{\@spacingsize}{1.5}
 \DeclareOption{singlespacing}{\renewcommand{\@spacingsize}{1}}
@@ -28,52 +28,48 @@
 \fi
 
 \LoadClass[a4paper]{report}
-
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}
 \RequirePackage{amsfonts}
+\RequirePackage{titlesec}
 
 % Theorems
 \numberwithin{equation}{section}
 \renewcommand{\theequation}{\thesection\arabic{equation}}
 \theoremstyle{definition}
-\newtheorem{definicija}{Definīcija}%
-\newtheorem{pienemums}{Pieņēmums}%
-\newtheorem{piemers}{Piemērs}%
+\newtheorem{definicija}{Defin\={\i}cija}%
+\newtheorem{pienemums}{Pie\c{n}\={e}mums}%
+\newtheorem{piemers}{Piem\={e}rs}%
 \theoremstyle{plain}
-\newtheorem{teorema}{Teorēma}%
+\newtheorem{teorema}{Teor\={e}ma}%
 \newtheorem{apgalvojums}[teorema]{Apgalvojums}%
 \newtheorem{lemma}[teorema]{Lemma}%
 \newtheorem{sekas}[teorema]{Sekas}%
-\newtheorem{piezime}[teorema]{Piezīme}
-\renewcommand\proofname{Pierādījums}
+\newtheorem{piezime}[teorema]{Piez\={\i}me}
+\renewcommand\proofname{Pier\={a}d\={\i}jums}
 \newenvironment{pieradijums}{\begin{proof}}{\end{proof}}
 
 % Formating
+\RequirePackage[left=30mm,top=20mm,right=20mm,bottom=20mm]{geometry}
+
 \renewcommand{\baselinestretch}{\@spacingsize}
+% LaTeX has problems with \bfseries\scshape, the only font I've found with
+% reasonable unicode support that supports this so far is Linux Libertine.
 \renewcommand{\@makechapterhead}[1]{%
-  \vspace*{50 pt}%
-	      {\setlength{\parindent}{0pt} \raggedright \normalfont
-		    \bfseries\Huge
-		    \ifnum \value{secnumdepth} > 1
-%%    			\if@mainmatter % This is undefined in report
-                    \thechapter\ %
-%%                \fi
-		    \fi
-		    #1\par\nobreak\vspace{40 pt}
-          }
-}
-		
-\if \@normmargins 0		
-	\oddsidemargin 5mm
-	\evensidemargin 0mm
-	\topmargin -20mm
-	\textwidth 160mm
-	\textheight 248mm
-\fi
+	\vspace*{0 pt}%
+	{\setlength{\parindent}{1cm} \raggedright \normalfont
+        \bfseries\scshape\fontsize{14}{0}\selectfont
+		\ifnum \value{secnumdepth}>1
+   			\thechapter\ %
+		\fi
+		#1\par\nobreak\vspace{14 pt}}}
 
+\titleformat{\section}{\bfseries\fontsize{14}{7}\selectfont}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\fontsize{14}{7}\selectfont}{\thesubsection}{1em}{}
 
+\RequirePackage{caption}
+\captionsetup[figure]{labelfont=it,textfont=bf}
 
 % Toc
 \let\@origtoc\tableofcontents
@@ -88,8 +84,8 @@
 	\newpage
 	\renewcommand{\baselinestretch}{1}
 	\bibliographystyle{ludis}
-	\renewcommand{\bibname}{Izmantotā literatūra un avoti}
-	\addcontentsline{toc}{chapter}{Izmantotā literatūra un avoti}\bibliography{#1}
+	\renewcommand{\bibname}{Izmantot\={a} literat\={u}ra un avoti}
+	\addcontentsline{toc}{chapter}{Izmantot\={a} literat\={u}ra un avoti}\bibliography{#1}
 	\renewcommand{\baselinestretch}{\@spacingsize}
 }
 
@@ -101,8 +97,8 @@
 	\renewcommand{\abstractname}{Abstract}
 	\begin{abstract}}{\end{abstract}}
 \newenvironment{abstract-lv}{%
-	\renewcommand{\@keywordname}{Atslēgas vārdi:}
-	\renewcommand{\abstractname}{Anotācija}
+	\renewcommand{\@keywordname}{Atsl\={e}gas v\={a}rdi:}
+	\renewcommand{\abstractname}{Anot\={a}cija}
 	\begin{abstract}}{\end{abstract}}
 
 % Special sections
@@ -119,18 +115,18 @@
 }
 \newcommand{\NOSAUKUMS}[1]{\renewcommand{\@nosaukumsLB}{#1}}
 \newcommand{\gads}[1]{\date{#1}}
-\newcommand{\universityname}{Latvijas Universitāte}
+\newcommand{\universityname}{Latvijas Universit\={a}te}
 \newcommand{\universityshort}{LU}
 \newcommand{\@fakultate}{}
 \newcommand{\@fakultateD}{}
 \newcommand{\fakultate}[1]{%
-	\renewcommand{\@fakultate}{#1 fakultāte}
-	\renewcommand{\@fakultateD}{#1 fakultātē}}
+	\renewcommand{\@fakultate}{#1 fakult\={a}te}
+	\renewcommand{\@fakultateD}{#1 fakult\={a}t\={e}}}
 \newcommand{\@nodala}{}
 \newcommand{\@nodalaD}{}
 \newcommand{\nodala}[1]{%
-	\renewcommand{\@nodala}{#1 nodaļa}
-	\renewcommand{\@nodalaD}{#1 nodaļā}}
+	\renewcommand{\@nodala}{#1 noda\c{l}a}
+	\renewcommand{\@nodalaD}{#1 noda\c{l}\={a}}}
 \newcommand{\@vieta}{}
 \newcommand{\vieta}[1]{\renewcommand{\@vieta}{#1}}
 \newcommand{\@darbaveids}{}
@@ -167,7 +163,7 @@
       \begin{tabular}[t]{l}%
        Autors: \textbf{\@author} \\
        Stud. apl. \@studapl \\
-       Darba vadītājs: \@vaditajs
+       Darba vad\={\i}t\={a}js: \@vaditajs
       \end{tabular}\par}%
       \vskip 1.5em%
     \end{flushright}
@@ -183,11 +179,11 @@
 	\newpage\thispagestyle{empty}
   	\renewcommand{\baselinestretch}{1} 
   
-	\@darbaveids\ darbs ``\@title'' izstrādāts	\universityshort\ \@fakultateD.\par
+	\@darbaveids\ darbs ``\@title'' izstr\={a}d\={a}ts	\universityshort\ \@fakultateD.\par
 	\vskip 1em%
-	Ar savu parakstu apliecinu, ka pētījums veikts patstāvīgi, izmantoti tikai tajā norādītie informācijas avoti un iesniegtā darba elektroniskā kopija atbilst izdrukai.\par
+	Ar savu parakstu apliecinu, ka p\={e}t\={\i}jums veikts patst\={a}v\={\i}gi, izmantoti tikai taj\={a} nor\={a}d\={\i}tie inform\={a}cijas avoti un iesniegt\={a} darba elektronisk\={a} kopija atbilst izdrukai.\par
 	\vskip 1em
-	Autors: \@author, st. apl. \@studapl\par
+	Autors: \@author\par
 	\vskip 2em
 	\hspace{4em}\begin{tabular}{cc}%
 		\underline{\hspace{10em}}\vspace{-2mm} &
@@ -196,8 +192,8 @@
 		 \tiny{(datums)}
 	\end{tabular}
 	\vskip 3em%
-	Rekomendēju/nerekomentēju darbu aizstāvēšanai.\par
-	Vadītājs: \@vaditajs\par
+	Rekomend\={e}ju darbu aizst\={a}v\={e}\v{s}anai.\par
+	Vad\={\i}t\={a}js: \@vaditajs\par
 	\vskip 2em
 	\hspace{4em}\begin{tabular}{cc}%
 		\underline{\hspace{10em}}\vspace{-2mm} &
@@ -206,26 +202,36 @@
 		 \tiny{(datums)}
 	\end{tabular}
 	\vskip 1em%
+	Recenzents: \@recenzents\par
+	\vskip 2em
+	\hspace{4	em}\begin{tabular}{cc}%
+		\underline{\hspace{10em}}\vspace{-2mm} &
+		\underline{\hspace{8em}} \\
+		 \tiny{(paraksts)} &
+		 \tiny{(datums)}
+	\end{tabular}
+
+	\vskip 3em%
 	\begin{tabular}{lc}
-	Darbs iesniegts \@fakultateD & \underline{\hspace{8em}} \\
+	Darbs iesniegts \@nodalaD & \underline{\hspace{8em}} \\
 	& \tiny{(datums)}
 	\end{tabular}\par
 	\vskip 1em
-	\begin{tabular}{lc}%
-      Pieņēma  & \underline{\hspace{20em}}\\
-		& \tiny{(darbu pieņēma)}
+	\begin{tabular}{c}%
+		\underline{\hspace{25em}}\vspace{-2mm} \\
+		 \tiny{(darbu pie\c{n}\={e}ma)}
 	\end{tabular}
 	\vskip 5em%
-	Darbs aizstāvēts \MakeLowercase{\@darbaveids} gala pārbaudījuma komisijas sēdē\par
+	Darbs aizst\={a}v\={e}ts \MakeLowercase{\@darbaveids} gala p\={a}rbaud\={\i}juma komisijas s\={e}d\={e}\par
 	\vskip 1em%
-	\begin{tabular}{cl}\underline{\hspace{8em}}\vspace{-2mm} & 	 prot.\ Nr. \underline{\hspace{4em}}, vērtējums\underline{\hspace{4em}} \\
+	\begin{tabular}{cl}\underline{\hspace{8em}}\vspace{-2mm} & 	 prot.\ Nr. \underline{\hspace{4em}}, v\={e}rt\={e}jums\underline{\hspace{4em}} \\
 	 \tiny{(datums)} & \end{tabular}\par
 	\vskip 1em%
 	\begin{tabular}{lcc}
 	Komisijas sekret\={a}rs/-e: & 
 	\underline{\hspace{8em}}\vspace{-2mm} &
 	\underline{\hspace{8em}} \\
-	& \tiny{(Vārds, Uzvārds)} & \tiny{(paraksts)} 
+	& \tiny{(V\={a}rds, Uzv\={a}rds)} & \tiny{(paraksts)} 
 	\end{tabular}
 }   
 
