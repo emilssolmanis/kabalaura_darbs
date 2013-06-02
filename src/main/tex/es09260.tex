@@ -105,18 +105,18 @@ iztveršanas intervālu. Tas nepieciešams, lai varētu no datiem iegūt inform�
 veikto ceļu, bet arī ātrumu.
 
 Šādu datu ievākšanas process ir salīdzinoši vienkāršs, cilvēkam nepieciešams tikai ieslēgt sensoru.
-Lielākā problēma plaša mēroga datu ievākšanai ir tas, ka katram sensoram nepieciešams savs 
+Lielākā problēma plaša mēroga datu ievākšanai ir tas, ka katram sensoram nepie\-ciešams savs 
 lietotājs, kā arī, ne mazāk svarīgi, lietotāju privātuma problēmas. Ierakstītie GPS dati dod
 precīzu informāciju par lietotāja atrašanās vietu un laiku kamēr vien sensors ir ieslēgts. 
 No tiem var izsecināt sensora nēsātāja dzīves vietu, darba vietu, ilgstošākā laika periodā -- 
 iespējams arī iepirkšanās vietu preferences un paradumus, hobijus, iemīļotās brīvā laika 
-pavadīšanas vietas un laikus.
+pava\-dīšanas vietas un laikus.
 
 Iemesli GPS datu vākšanai ir dažādi, taču primāri var izdalīt divas grupas:
 \begin{itemize}
-\item datu agregēšana, lai iegūtu informāciju par grupas (iespējams, vairāku) uzvedību, piemēram, 
-  dažādu ceļu lietojuma intensitāti un laikus, ātri noteikt sastrēgumu vietas, iespējams pat to 
-  iemeslus;
+\item datu agregēšana, lai iegūtu informāciju par grupas (iespējams, vairāku) uzvedību, \linebreak 
+  piemēram, dažādu ceļu lietojuma intensitāti un laikus, ātri noteikt sastrēgumu vietas, iespējams 
+  pat to iemeslus;
 \item datu analīze, lai uzlabotu personalizētu informāciju -- piemēram, ceļa plānošanas sistēmas,
   kas spētu pielāgoties konkrēta lietotāja paradumiem un ieteikt tieši šim lietotājam vēlamo ceļu.
 \end{itemize}
@@ -127,11 +127,11 @@ pazīmes.
 Darbā gaitā ir izstrādāta metode ierakstītu augstas frekvences GPS ceļu sadalīšanai un 
 klasterizācijai pa segmentā izmantotajiem transporta veidiem. Ir pierādīts 
 ~\cite{zheng_gps_segmentation}, ka ierakstītus GPS ceļus var segmentēt un klasificēt transporta
-veidu ar lēmumu kokiem. Klasifikācijas metodes lielākā problēma ir tā, ka iepriekš jāzina 
+veidu ar lēmumu kokiem. Klasifikācijas \linebreak metodes lielākā problēma ir tā, ka iepriekš jāzina 
 datos atrodamie transporta veidi, kā arī nepieciešami iezīmēti paraugi, kas pieder katrai grupai.
-Šajā darbā izvēlēta klasterizācijas metode, jo tai nav šādu ierobežojumu. Tās galvenā problēma --
-iegūtās grupas tiešā veidā nenosaka pārvietošanās veidu vai jebko citu, divu datu punktu esamība
-vienā grupā nozīmē tikai to, ka pēc izvēlētās pazīmes tie ir tuvāk viens otram, nekā katrs 
+Šajā darbā izvēlēta klasterizācijas \linebreak metode, jo tai nav šādu ierobežojumu. Tās galvenā
+problēma --iegūtās grupas tiešā veidā neno\-saka pārvietošanās veidu vai jebko citu, divu datu punktu 
+esamība vienā grupā nozīmē tikai to, ka pēc izvēlētās pazīmes tie ir tuvāk viens otram, nekā katrs 
 no tiem atsevišķi kādam no citās grupās esošajiem punktiem.
 
 Ir ierakstīti un ievākti iespējami dažādi GPS dati darbā apskatāmās problēmas vajadzībām. 
@@ -146,7 +146,7 @@ centrā redzamos $4$ tiltus -- no augšas --, Vanšu, Akmens, Salu un Dienvidu.
 
 Apstrādājamo datu formāts ir trijnieki \emph{(garums, platums, laiks)}. Garums un platums doti 
 grādos. Tajos nepieciešams atrast pazīmes, kas ļautu noteikt atšķirību starp dažādajiem 
-pārvietošanās veidiem. Pamatā, tas nozīmē, ka pieejams ir virziena vektors un laiks -- no tiem
+pārvie\-tošanās veidiem. Pamatā, tas nozīmē, ka pieejams ir virziena vektors un laiks -- no tiem
 seko arī attālums, ātrums, paātrinājums un virziena maiņa.
 
 \begin{figure}
@@ -164,13 +164,14 @@ Darbu uzsākot ir izvirzīta hipotēze, ka ir iespējams šos ierakstītos GPS c
 
 % TODO: darba struktūras apraksts
 
-Darba rezultāti rāda ka ierakstīto ceļu segmentācija un klasterizācija ir iespējama un veiksmīga,
-taču nepieciešama tālāka izpēte, lai uzlabotu rezultātu precizitāti.
+Darba rezultāti rāda ka ierakstīto ceļu segmentācija un klasterizācija ir iespējama un \linebreak 
+veiksmīga, taču nepieciešama tālāka izpēte, lai uzlabotu rezultātu precizitāti.
 
 \chapter{GPS dati}
 \section{Datu pieejamība, izplatība}
-Mūsdienās ļoti daudzām ierīcēm ir pieejams GPS sensors. Tas ir praktiski jebkurā mūsdienīgā mobilajā
-tālrunī un daudzās citās ierīcēs. Piemēram, ASV Federālā Komunikāciju Komisija ir noteikusi, ka līdz
+Mūsdienās ļoti daudzām ierīcēm ir pieejams GPS sensors. Tas ir praktiski jebkurā mūs\-dienīgā mobilajā
+tālrunī un daudzās citās ierīcēs. Piemēram, ASV Federālā Komunikāciju \linebreak Komisija ir
+noteikusi, ka līdz
 2018. gadam glābšanas dienestu vajadzībām visām bezvadu ierīcēm ir jāspēj būt atrodamām 
 ar $50$ pēdu precizitāti ~\cite{fcc_e911}, kas praktiski ir grūti panākams ar torņu triangulācijas 
 metodēm un vēl vairāk sekmēs GPS sensoru ieviešanu bezvadu ierīcēs.
@@ -183,9 +184,9 @@ lejupielādēm.
 
 Ir vairākas lietotnes, kas GPS sniegto informāciju savieno ar sociālajiem tīkliem. Lietotne 
 \emph{FourSquare} ļauj lietotājiem ``atzīmēties'' dažādās vietās un par to paziņot lietotnē
-apstiprinātajiem draugiem. Dažādas iestādes, piemēram, restorāni, kafejnīcas un bāri, lietotājiem, 
-kuri iestādē ``atzīmējušies'' īpaši bieži, sniedz atlaides saviem pakalpojumiem. Līdzīgi,
-Google lietotne \emph{Latitude} sniedz iespēju apstiprinātiem draugiem reālā laikā redzēt
+\linebreak apstiprinātajiem draugiem. Dažādas iestādes, piemēram, restorāni, kafejnīcas un bāri, 
+lieto\-tājiem, kuri iestādē ``atzīmējušies'' īpaši bieži, sniedz atlaides saviem pakalpojumiem. 
+Līdzīgi, Google lietotne \emph{Latitude} sniedz iespēju apstiprinātiem draugiem reālā laikā redzēt
 lietotāja viedtālruņa atrašanās vietu.
 
 Ir pieejamas arī lietotnes, kas mēģina sekot un kategorizēt lietotāju ikdienas 
@@ -196,7 +197,7 @@ izmanto telefona akselerometru, žiroskopu un GPS sensoru, kas:
 \item padara lietotnes izmantošanu neiespējamu uz ierīcēm, kas aprīkotas tikai ar GPS sensoru.
 \end{itemize}
 
-GPS dati tiek plaši lietoti arī paplašinātās realitātes produktos. Arī nesen izlaistajā paplašinātās
+GPS dati tiek plaši lietoti arī paplašinātās realitātes produktos. Arī nesen izlaistajā papla\-šinātās
 realitātes briļļu produktā \emph{Google Glass} ir GPS sensors, un tas palīdz daudzām lietotnēm
 noteikt pareizo kontekstu un sniegt lietotājam labākas rekomendācijas. Piemēram, redzot tikai bildi
 ar Eifeļa torni mēs nevaram pateikt, vai skatamies uz Eifeļa torni Parīzē vai kādu mazāku repliku
@@ -217,9 +218,10 @@ algoritmu metožu ir balstītas statistikā un varbūtību teorijā.
 Parasti izšķir uzraudzīto un neuzraudzīto mašīnmācīšanos. Uzraudzītā mašīnmācīšanās tiek lietota
 tad, kad ir zināms, kāds rezultāts ir ``pareizs'' un ir pieejami pareizo rezultātu paraugi.
 Modelis tiek veidots tā, lai imitētu esošos ``pareizos'' datu paraugus un vēlāk testēts uz 
-apmācības procesā neizmantotiem datiem. Neuzraudzītā mašīnmācīšanās tiek lietota gadījumos, kad
+apmācības procesā neizmantotiem datiem. Neuzraudzītā mašīnmācīšanās tiek lietota gadī\-jumos, kad
 nav pieejama informācija par to, kurš datu paraugs ir ``pareizs''. To lieto lai atrastu datos
-apslēptas struktūras. Viena no plašākajām neuzraudzītās mašīnmācīšanās nozarēm ir klasterizācija.
+apslēptas struktūras. Viena no plašākajām neuzraudzītās mašīnmācīšanās nozarēm 
+ir \linebreak klasterizācija.
 
 Klasterizācija ir neuzraudzītās mašīnmācīšanās metode, kuras mērķis ir grupēt pieejamos datu
 paraugus pēc kādas kopīgas pazīmes tā, lai paraugi, kas atrodas vienā grupā būtu tuvāk viens otram,
@@ -237,12 +239,13 @@ un nodot apstrādei automatizētai sistēmai.
 
 Ar šādu algoritmu iegūstot konkrēta lietotāja izmantotos transportus kādos ceļu posmos varētu veidot
 personalizētas ceļu plānošanas sistēmas. Piemēram, ja lietotājs konkrētos ceļa posmos parasti
-dod priekšroku braukšanai ar divriteni, nevis sabiedrisko transportu, tad meklējot ceļu uz galamērķi,
+dod priekšroku braukšanai ar divriteni, nevis sabiedrisko transportu, tad \linebreak meklējot
+ ceļu uz galamērķi,
 uz kuru tuvākais ceļš ievērojami pārklājas ar šiem ceļa posmiem, primārā rekomendācija būtu
 braukt ar divriteni.
 
-Ja būtu pieejami pietiekoši daudz dati, šos segmentus varētu izmantot pilsētas infrastruktūras
-optimizācijai. Piemēram, būtu redzams, kurās vietās pa ietvi intensīvi pārvietojas velobraucēji,
+Ja būtu pieejami pietiekoši daudz dati, šos segmentus varētu izmantot pilsētas infrastruk\-tūras
+optimizācijai. Piemēram, būtu redzams, kurās vietās pa ietvi intensīvi pārvietojas velo\-braucēji,
 un attiecīgi prioretizēt veloceliņu izbūvi koncentrējoties uz šīm vietām. Tāpat būtu redzams cik
 intensīvi kādos posmos cilvēki lieto sabiedrisko transportu -- iespējams, ka viena maršruta ietvaros
 intensīvi izmantots tiek tikai kāds konkrēts posms.
@@ -278,17 +281,20 @@ veidi
 \chapter{Iespējamie problēmas risinājumi}
 GeoLife projekta ietvaros izstrādātajam algoritmam GPS ceļu segmentācijai ir priekšrocības 
 pār alternatīvajām ``vienmērīgā laika'' un ``vienmērīgā attāluma'' metodēm, un tās ir
-eksperimentāli demonstrētas -- reālajā dzīvē cilvēku pārvietošanās veidu sadalījums laikā 
+ekspe\-rimentāli demonstrētas -- reālajā dzīvē cilvēku pārvietošanās veidu sadalījums laikā 
 un attālumā nav ne tuvu vienmērīgs, tādēļ izstrādātais maiņas-punktu algoritms strādā labāk.
 Algoritma veiktspēja ir pietiekoša -- tipiski $\sim$ $35\%$ - $40\%$
 precizitāte un $\sim$ $70\%$ - $80\%$ jutība ~\cite{zheng_gps_segmentation} -- 
 lai neuzskatītu to par primāro problēmu, izmantotu tā implementāciju GPS ceļu segmentēšanai 
 un pievērstos atrasto segmentu grupēšanas problēmai un, kad tiks atrasts piemērots risinājums
-segmentu grupēšanai, atgrieztos pie šīs daļas precizitātes uzlabošanas.
+segmentu grupēšanai, atgrieztos pie šīs daļas precizitātes uzlabošanas. Taču jāņem vērā, ka lai
+arī pastāv gatavs algoritms, tam ir vairāki konfigurācijas parametri, kurus piemeklēt nāksies
+eksperimentāli.
 
-Līdzīgu segmentu grupēšana pēc kādām pazīmēm ir klasifikācijas vai klasterizācijas problēma. Tā kā
-darba mērķis ir izslēgt jebkādu atgriezenisku saiti ar lietotāju, un klasifikācija ir uzraudzītās
-mašīnmācīšanās problēma, risinājumi jebkurā gadījumā būs saistīti ar klasterizāciju.
+Līdzīgu segmentu grupēšana pēc kādām pazīmēm ir klasifikācijas vai klasterizācijas \linebreak 
+problēma. Tā kā darba mērķis ir izslēgt jebkādu atgriezenisku saiti ar lietotāju, un klasifikācija 
+ir uzraudzītās mašīnmācīšanās problēma, risinājumi jebkurā gadījumā būs saistīti 
+ar \linebreak klasterizāciju.
 
 Konkrētas klasterizēšanas metodes izvēle ir eksperimentāls process, taču nav vērts sākt ar 
 sarežģītākām metodēm, ja nav pierādīts, ka risinājums vismaz konceptuāli strādā. Viens
@@ -303,10 +309,10 @@ Darbā apskatāmajai problēmai ir divi posmi:
 \item sagrupēt iegūtos segmentus pa transporta veidiem.
 \end{enumerate}
 
-Sākotnējā izpēte norāda uz to, ka pirmo posmu var risināt izmantojot maiņas-punktu algoritmu 
+Sākotnējā izpēte norāda uz to, ka pirmo posmu var risināt izmantojot maiņas-punktu algo\-ritmu 
 ~\cite{zheng_gps_segmentation}, jo tā veiktspēja ir pietiekoši augsta.
 
-Lai risinātu problēmas otro posmu, nepieciešams veids, kā grupēt dažādos iegūtos segmentus.
+Lai risinātu problēmas otro posmu, nepieciešams veids, kā grupēt dažādos iegūtos seg\-mentus.
 Šajā darbā tā tiek apskatīta kā klasterizācijas problēma. Taču pirms varam nodarboties ar 
 datu klasterizāciju, nepieciešamas pazīmes pēc kurām šos datus klasterizēt.
 
@@ -340,7 +346,7 @@ abu filtru konvolūcijas pielietošanai.
   \label{fig:speed_comparison}
 \end{figure}
 
-Kā redzams attēlā, dotajā gadījumā cilvēkam ir iespējams salīdzinoši skaidri nošķirt transporta 
+Kā redzams attēlā, dotajā gadījumā cilvēkam ir iespējams salīdzinoši skaidri nošķirt trans\-porta 
 veidus jau pēc ātrumiem, taču tikai tad, ja novērojumi veikti pietiekoši ilgā laika periodā.
 Attēlā redzams, ka apmēram pirmās $250$ - $300$ sekundes braukšanu ar trolejbusu, auto un divriteni
 ir grūti atšķirt. Zinot lietotos transporta veidus un, galvenokārt, to, ka jāmeklē tieši $4$ 
@@ -369,7 +375,8 @@ salīdzinājums. Pārskatāmības labad grafiki nolīdzināti ar $(3, 5)$ modifi
   \label{fig:acceleration_comparison}
 \end{figure}
 
-Arī pēc paātrinājuma visvieglāk ir atšķirt iešanu ar kājām no pārējiem pārvietošanās veidiem. 
+Arī pēc paātrinājuma visvieglāk ir atšķirt iešanu ar kājām no pārējiem pārvietošanās \linebreak 
+veidiem. 
 Amplitūdu atšķirības nav pārāk lielas absolūto vērtību ziņā, taču relatīvi tās ir vērā ņemamas.
 
 Piemēram, redzams, ka, braucot ar divriteni, paātrinājuma amplitūda ir $0.44\,\sfrac{m}{s^2}$,
@@ -377,9 +384,9 @@ braucot ar auto -- $0.92\,\sfrac{m}{s^2}$, braucot ar trolejbusu -- $0.65\,\sfra
 bet ejot ar kājām -- $0.23\,\sfrac{m}{s^2}$ \emph{(vērtības nogludinātajai līknei)}. 
 
 Tātad pārvietojoties ar divriteni paātrinājuma amplitūda ir $2$ reizes
-lielāka, nekā pārvietojoties ar kājām, un pārvietojoties ar auto tā ir $2$ reizes lielāka nekā
+lielāka, nekā pārvie\-tojoties ar kājām, un pārvietojoties ar auto tā ir $2$ reizes lielāka nekā
 braucot ar divriteni. Paātrinājuma amplitūda pārvietojoties ar trolejbusu ir pa vidu starp
-divriteņa un auto rādītājiem un bez lielas noslieces uz kādu no tiem. Tas, savukārt, liek domāt,
+divriteņa un auto rādī\-tājiem un bez lielas noslieces uz kādu no tiem. Tas, savukārt, liek domāt,
 ka paātrinājums varētu būt ļoti labs rādītājs, lai izšķirtu dažādos pārvietošanās veidus -- jau
 pēc amplitūdām vien mēs varam diezgan viennozīmīgi izšķirt šos četrus transportus.
 
@@ -422,9 +429,9 @@ un tā transformē signālu no laika vērtību apgabala uz frekvenču vērtību 
 
 Paātrinājumu Furjē komponenšu absolūtās vērtības attēlotas 
 grafikā \ref{fig:fourier_analysis}. Redzams, ka tās manāmi atšķiras transporta veidiem. Iešanai ar
-kājām ir izteiktas augstās frekvences komponentes un salīdzinoši spēcīgas arī vidējās frekvences.
+kājām ir izteiktas augstās frekvences kompo\-nentes un salīdzinoši spēcīgas arī vidējās frekvences.
 Paātrinājumam braucot ar auto spēcīgās frekvences ir daudz koncentrētākas tieši augstajās.
-Braukšanai ar divriteni ir mazākas amplitūdas un vienmērīgāk pārstāvēts spektrs, savukārt trolejbusa
+Braukšanai ar divriteni ir mazākas ampli\-tūdas un vienmērīgāk pārstāvēts spektrs, savukārt trolejbusa
 paātrinājumam ir divi izteikti ``pīķi'' augstajā frekvenču zonā un vidējas amplitūdas.
 
 Furjē analīze tālāk apstiprina hipotēzi par paātrinājumu kā piemērotu pazīmi segmentu 
@@ -448,7 +455,7 @@ spektrālo analīzi un periodogrammām. ~\cite{bloomfield2004} Periodogrammu def
 kur $d(f)$ ir diskrētā Furjē transformācija.
 
 Transporta veidu paātrinājumu periodogrammas attēlotas attēlā \ref{fig:periodograms}. Pielietota
-nolīdzināšana ar modificēto Daniell filtru $(5, 9)$, lai mazinātu mērījuma trokšņus.
+\linebreak nolīdzināšana ar modificēto Daniell filtru $(5, 9)$, lai mazinātu mērījuma trokšņus.
 
 \begin{figure}
   \centering
@@ -471,12 +478,12 @@ Algoritmam ieejā nepieciešami vienādas dimensionalitātes paraugi, taču peri
 garumu. Iespējas ir 
 \begin{itemize}
 \item izvēlēties dimensiju skaitu, kas vienāds ar garāko paraugu un interpolēt vērtības 
-  vajadzīgajām frekvencēm paraugiem ar mazāku dimensionalitāti;
+  vaja\-dzīgajām frekvencēm paraugiem ar mazāku dimensionalitāti;
 \item pirms veikt Furjē transformāciju, pagarināt paraugu ar $0$ līdz nepieciešamajam garumam.
 \end{itemize}
 
 Abas alternatīvas sniedz praktiski identisku gala rezultātu. Tā kā izvēlētā FFT
-implementācija ~\cite{commons_math} jau pieprasa, lai parauga garums būtu $2$ pakāpe, 
+\linebreak implementācija ~\cite{commons_math} jau pieprasa, lai parauga garums būtu $2$ pakāpe, 
 izvēlēta otrā alternatīva un visi paraugi pirms transformācijas tika pagarināti līdz mazākajai
 nepieciešamajai $2$ pakāpei, kas iekļautu visus iegūtos segmentus, dotajā datu 
 kopā -- $2^{12} = 2048$.
@@ -491,7 +498,7 @@ izvēlas pēc attiecīgā klasteru skaita izskaidrotās dispersijas. $k$ izvēla
 $k$ par $1$, izskaidrotās dispersijas apjoms manāmi nepalielinās.
 
 Klasteru skaita izskaidrotā dispersijas grafiks redzams attēlā \ref{fig:kmeans_elbow}. Grafikā 
-redzams, ka piemērots $k$ ir $6$ vai $7$.
+redzams, ka \linebreak piemērots $k$ ir $6$ vai $7$.
 
 \begin{figure}
   \centering
@@ -502,7 +509,7 @@ redzams, ka piemērots $k$ ir $6$ vai $7$.
 
 \chapter{Rezultāti}
 Izvēloties klasterizēt GPS ceļu segmentus $6$ klasteros redzami labi rezultāti. Attēlā 
-\ref{fig:clustered_trails} redzams sagrupēto segmentu grafisks attēlojums. Gaišākie, 
+\ref{fig:clustered_trails} \linebreak redzams sagrupēto segmentu grafisks attēlojums. Gaišākie, 
 spilgti zilie ceļi aptuveni atbilst maršrutiem, kas datos ir mēroti ar divriteni, violetie -- 
 maršrutiem, kas ieti ar kājām, tumši zilie -- ikdienā lietotajiem trolejbusa maršrutiem un liela daļa
 sarkano ceļu -- maršrutiem, kas veikti pārvietojoties ar automašīnu.
@@ -520,23 +527,24 @@ Līdzīgi rezultāti ir arī izvēloties grupēt datus $7$ klasteros.
 Iegūtajos klasteros ir acīmredzamas kļūdas, piemēram, kreisajā pusē redzamais violetais loks, kaut
 gan pārējie violetie ceļa posmi šķietami atbilst ar kājām mērotiem maršrutiem. Konkrētais gadījums
 šķietami skaidrojams ar to, ka tas ir ceļš uz lidostu un veikts ārpus pilsētas, līdz ar ko
-paātrinājums bijis salīdzinoši konstants. Iespējams šī kļūda tiktu labota, ja par papildus pazīmi
-tiktu izvēlēts arī ātrums.
+paātrinājums bijis salīdzinoši konstants. Iespējams šī kļūda tiktu labota, ja 
+par \linebreak papildus pazīmi tiktu izvēlēts arī ātrums.
 
 Šī pati kļūda norāda uz vēl vienu apstākli -- ievāktā datu kopa, lai arī sākotnēji šķietami 
-vispusīga, ir ar vairākiem trūkumiem. Dati ievākti tikai pilsētā, tajos nav, piemēram, pārvietošanās
+vispusīga, ir ar vairākiem trūkumiem. Dati ievākti tikai pilsētā, tajos nav, piemēram, pārvie\-tošanās
 pa lielceļiem lielākos ātrumos ar jebkuru transporta līdzekli.
 
 Rezultātos redzama arī viena transporta veida šķelšanās divos klasteros. Ceļi, kas iezīmēti zaļā
 krāsā, ir pārvietošanās ar auto, taču tādi ir arī lielākā daļa sarkano. Ticami, ka arī šo
 problēmu iespējams atrisināt ar papildus pazīmju ieviešanu.
 
-Iespējams, daļa no klasterizācijas kļūdām skaidrojamas arī ar algoritma pirmā posma kļūdām. 
+Iespējams, daļa no klasterizācijas kļūdām skaidrojamas arī ar algoritma pirmā posma \linebreak kļūdām.
 Pirmajā posmā lietotā algoritma precizitāte ir ap $40\%$. Tas mēdz ieviest dažas tipiskas anomālijas
-segmentējot ceļus, piemēram, nošķelt staigāšanas segmentu pa vidu garākam braukšanas segmentam, kaut
-gan staigāšana tur nav bijusi. Tam var būt vairākas negatīvas ietekmes:
+segmentējot ceļus, piemēram, nošķelt staigāšanas segmentu pa vidu garākam 
+\linebreak braukšanas segmentam, kaut gan staigāšana tur nav bijusi. Tam var būt vairākas
+negatīvas ietekmes:
 \begin{itemize}
-\item kopējā ne-staigāšanas segmenta garuma samazināšanās. Ekstrēmākos gadījumos, iespējams pat zem
+\item kopējā ne-staigāšanas segmenta garuma samazināšanās. Ekstrēmākos gadījumos, ies\-pējams pat zem
   $60$ s sliekšņa, bet pat ja sašķelts tiek krietni garāks segments -- var gadīties, ka pazīmes
   starp šiem posmiem atšķiras pietiekoši, lai tos sagrupētu dažādās grupās, kaut arī pēc
   abu posmu pazīmju vidējās vērtības posms kopumā pieder kādai citai grupai.
@@ -549,7 +557,7 @@ paraugu, pārsvarā klasificējot ne-staigāšanas posmus kā staigāšanas. Izt
 saistīts ar sabiedrisko transportu. Ja tas garāku posmu veic ar zemu ātrumu un paātrinājumu,
 algoritms nolemj, ka tas ir staigāšanas posms. Piemērs attēlā \ref{fig:wrong_segmentation} ir viena
 no tipiskām kļūdu vietām. Parasti šie kļūdainie segmenti ir īsi, un tos varētu likvidēt ieviešot
-pirmā posma algoritmā kādu heiristiku.
+pirmā posma algo\-ritmā kādu heiristiku.
 
 % plot(mapproject(andrejsalaSegments$lon, andrejsalaSegments$lat), col=c("green", "red")[andrejsalaSegments$transportMode + 1], type="p", cex=1, xlim=c(-.0003, 0), ylim=c(1.2147, 1.2150), xaxt="n", yaxt="n", main="Nepareizas klasifikācijas piemērs", xlab="", ylab="", pch=c("X", "O")[andrejsalaSegments$transportMode + 1])
 % legend(-0.0003, 1.21475, c("Staigāšana", "Nestaigāšana"), col=c("green", "red"), pch=c("X", "O"))
@@ -565,13 +573,13 @@ Ir saprātīgi pieņemt, ka algoritma precizitāti varētu ievērojami uzlabot p
 pazīmes, sākot ar ātrumu, bet arī virziena maiņas biežumu un lielumu, apstāšanās biežumu u. tml.
 
 Nepieciešams papildināt un padarīt vispārīgāku ievākto datu kopu. Darba izstrādes gaitā atklātās
-nepilnības datos novērst nav grūti, bet ir salīdzinoši laikietilpīgi. Taču bez vispusīgākiem
-datiem pastāv risks ka tālāka izpēte būtu tendencioza, ar noslieci uz pilsētas apstākļiem, kas
-pats par sevi nav slikti, bet arī nav šī darba mērķis.
+nepilnības datos novērst nav grūti, bet ir salīdzinoši laikietilpīgi. Taču bez vispu\-sīgākiem
+datiem pastāv risks ka tālāka izpēte būtu tendencioza, ar noslieci uz 
+pilsētas \linebreak apstākļiem, kas pats par sevi nav slikti, bet arī nav šī darba mērķis.
 
 Nepieciešams papildināt datus ar citu cilvēku GPS ierakstiem. Pašreizējā datu kopā ir tikai darba
-autora ierakstītie GPS ceļi. Katram cilvēkam, iespējams, ir individuāli braukšanas ieradumi, kas
-arī varētu ieviest datos liekas tendences.
+autora ierakstītie GPS ceļi. Katram cilvēkam, iespējams, ir individuāli braukšanas 
+\linebreak ieradumi, kas arī varētu ieviest datos liekas tendences.
 
 Noderīgi būtu arī ievākt iezīmētus datus, lai varētu empīriski noteikt klasterizācijas metodes
 precizitāti un jutību un salīdzināt to ar uzraudzītās mašīnmācīšanās metodēm.
@@ -583,8 +591,8 @@ precizitāte, lai būtu pamats domāt, ka to var tālāk uzlabot strādājot pie
 daļām. 
 
 Ir eksperimentāli pierādīts, ka pilsētas apstākļos ievāktus reālus GPS datus ir iespējams
-klasterizēt tikai pēc pazīmēm, kas atvasinātas no to paātrinājuma, kas norāda uz to, ka paātrinājums
-ir vērtīga pazīme, ko ņemt vērā turpmākajā algoritma izstrādē.
+klasterizēt tikai pēc pazīmēm, kas atvasinātas no to paātrinājuma, kas norāda uz to, 
+ka \linebreak paātrinājums ir vērtīga pazīme, ko ņemt vērā turpmākajā algoritma izstrādē.
 
 Ņemot vērā darba rezultātus, hipotēzi, ka ierakstītus GPS ceļus iespējams segmentēt un klasterizēt
 pēc transporta veidiem var uzskatīt par apstiprinātu.
