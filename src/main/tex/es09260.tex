@@ -33,7 +33,7 @@
 
 % bibtex
 \usepackage[pdfauthor={Emīls Šolmanis},%
-pdftitle={GPS datu segmentācija},%
+pdftitle={GPS datu segmentēšana},%
 pdfkeywords={machine learning, spatial data mining, GPS data analysis, clusterization},%
 hidelinks=true,%
 pagebackref=false,%
@@ -48,7 +48,7 @@ xetex]{hyperref}
 %% \usepackage{enumerate}
 
 \fakultate{Datorikas}
-\nosaukums{GPS datu segmentācija}
+\nosaukums{GPS datu segmentēšana}
 \darbaveids{Bakalaura}
 \autors{Emīls Šolmanis}
 \studapl{es09260}
@@ -167,7 +167,7 @@ Darbu uzsākot ir izvirzīta hipotēze, ka ir iespējams šos ierakstītos GPS c
 Darba rezultāti rāda ka ierakstīto ceļu segmentācija un klasterizācija ir iespējama un \linebreak 
 veiksmīga, taču nepieciešama tālāka izpēte, lai uzlabotu rezultātu precizitāti.
 
-\chapter{GPS dati}
+\chapter{GPS DATI}
 \section{Datu pieejamība, izplatība}
 Mūsdienās ļoti daudzām ierīcēm ir pieejams GPS sensors. Tas ir praktiski jebkurā mūs\-dienīgā mobilajā
 tālrunī un daudzās citās ierīcēs. Piemēram, ASV Federālā Komunikāciju \linebreak Komisija ir
@@ -227,7 +227,7 @@ Klasterizācija ir neuzraudzītās mašīnmācīšanās metode, kuras mērķis i
 paraugus pēc kādas kopīgas pazīmes tā, lai paraugi, kas atrodas vienā grupā būtu tuvāk viens otram,
 nekā tie ir paraugiem no citām grupām. 
 
-\chapter{Uzdevuma izpēte}
+\chapter{UZDEVUMA IZPĒTE}
 \section{Problēmas būtība, motivācija}
 Darba ietvaros tiek izstrādāta metode, kā sadalīt ierakstītus GPS ceļus atsevišķos segmentos
 pēc transporta veida un šos segmentus apkopotu grupās tā, ka grupas ietvaros segmentiem ir viens
@@ -278,7 +278,7 @@ veidi
   jaunais transporta veids tiek konsekventi nepareizi klasificēts kā viens no zināmajiem.
 \end{itemize}
 
-\chapter{Iespējamie problēmas risinājumi}
+\chapter{IESPĒJAMIE PROBLĒMAS RISINĀJUMI}
 GeoLife projekta ietvaros izstrādātajam algoritmam GPS ceļu segmentācijai ir priekšrocības 
 pār alternatīvajām ``vienmērīgā laika'' un ``vienmērīgā attāluma'' metodēm, un tās ir
 ekspe\-rimentāli demonstrētas -- reālajā dzīvē cilvēku pārvietošanās veidu sadalījums laikā 
@@ -301,7 +301,7 @@ sarežģītākām metodēm, ja nav pierādīts, ka risinājums vismaz konceptuā
 no vienkāršākajiem un arī ātrākajiem klasterizācijas algoritmiem ir \emph{K-means} algoritms.
 Tas arī tiks lietots darba ietvaros lai grupētu atrastos GPS segmentus.
 
-\chapter{Problēmas risinājums}
+\chapter{PROBLĒMAS RISINĀJUMS}
 \section{Pieejas izklāsts}
 Darbā apskatāmajai problēmai ir divi posmi:
 \begin{enumerate}
@@ -507,7 +507,7 @@ redzams, ka \linebreak piemērots $k$ ir $6$ vai $7$.
   \label{fig:kmeans_elbow}
 \end{figure}
 
-\chapter{Rezultāti}
+\chapter{REZULTĀTI}
 Izvēloties klasterizēt GPS ceļu segmentus $6$ klasteros redzami labi rezultāti. Attēlā 
 \ref{fig:clustered_trails} \linebreak redzams sagrupēto segmentu grafisks attēlojums. Gaišākie, 
 spilgti zilie ceļi aptuveni atbilst maršrutiem, kas datos ir mēroti ar divriteni, violetie -- 
@@ -584,7 +584,7 @@ autora ierakstītie GPS ceļi. Katram cilvēkam, iespējams, ir individuāli bra
 Noderīgi būtu arī ievākt iezīmētus datus, lai varētu empīriski noteikt klasterizācijas metodes
 precizitāti un jutību un salīdzināt to ar uzraudzītās mašīnmācīšanās metodēm.
 
-\chapter{Secinājumi}
+\chapter{SECINĀJUMI}
 Augstā frekvencē ierakstītus GPS datu ceļus ir iespējams veiksmīgi dalīt segmentos un klasterizēt
 pēc izmantotā transporta veida. Kaut arī rezultātos ir kļūdas, sasniegta pietiekoši augsta
 precizitāte, lai būtu pamats domāt, ka to var tālāk uzlabot strādājot pie abām algoritma
